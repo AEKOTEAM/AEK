@@ -3641,7 +3641,7 @@ Dev_Aek(msg.chat_id_, msg.id_, 1,[[
 ━───━ ♚ ━───━
 ♚∫ نقاطي • بيع نقاطي
 ━───━ ♚ ━───━
-て [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤
+࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)
 ]], 1, 'md')
 else
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ عذرا الالعاب معطله في المجموعه', 1, 'md')
@@ -7972,7 +7972,7 @@ local TXTE = "♚∫ اعدادات المجموعه ↫ ⤈\n━───━ �
 .."♚∫ التكرار ↫ "..flood.."\n"
 .."♚∫ عدد التكرار ↫ "..Flood_Num.."\n"
 .."♚∫ عدد السبام ↫ "..spam_c.."\n"
-.."━───━ ♚ ━───━\nて [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤\n"
+.."━───━ ♚ ━───━\n࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)\n"
 Dev_Aek(msg.chat_id_, msg.id_, 1, TXTE, 1, 'md')
 end
 end
@@ -9213,7 +9213,7 @@ local text =  [[
 ♚∫ م5 ↫ اوامر المطورين
 ♚∫ م6 ↫ اوامر الاعضاء
 ━───━ ♚ ━───━
-て [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤
+࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)
 ]] 
 Dev_Aek(msg.chat_id_, msg.id_, 1, (Help or text), 1, 'md')
 end
@@ -9283,7 +9283,7 @@ local text =  [[
 ♚∫ البوتات بالطرد
 ♚∫ البوتات بالتقيد
 ━───━ ♚ ━───━
-て [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤
+࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)
 ]]
 Dev_Aek(msg.chat_id_, msg.id_, 1, (Help or text), 1, 'md')
 end end
@@ -9358,7 +9358,7 @@ local text =  [[
 ♚∫ تقييد يوم + عدد الايام
 ♚∫ الغاء تقييد ↫ لالغاء التقييد بالوقت
 ━───━ ♚ ━───━
-て [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤
+࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)
 ]]
 Dev_Aek(msg.chat_id_, msg.id_, 1, (Help or text), 1, 'md')
 end end
@@ -9422,7 +9422,7 @@ local text =  [[
 ♚∫ ردود المدير • ردود المطور
 ♚∫ ضافني • حساب العمر • الزخرفه
 ━───━ ♚ ━───━
-て [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤
+࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)
 ]]
 Dev_Aek(msg.chat_id_, msg.id_, 1, (Help or text), 1, 'md')
 end end
@@ -9481,7 +9481,7 @@ local text =  [[
 ♚∫ حذف • مسح ↫ الاسماء المكتومه
 ♚∫ حذف جميع الرتب
 ━───━ ♚ ━───━
-て [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤
+࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)
 ]]
 Dev_Aek(msg.chat_id_, msg.id_, 1, (Help or text), 1, 'md')
 end end
@@ -9564,7 +9564,7 @@ local text =  [[
 ♚∫ ترحيب البوت • المغادره
 ♚∫ البوت الخدمي • التواصل
 ━───━ ♚ ━───━
-て [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤
+࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)
 ]]
 Dev_Aek(msg.chat_id_, msg.id_, 1, (Help or text), 1, 'md')
 end end
@@ -9611,7 +9611,7 @@ local text =  [[
 ♚∫ ايدي • كشف  ↫ بالرد • بالمعرف • بالايدي
 ♚∫ تحويل + بالرد ↫ صوره • ملصق • صوت • بصمه
 ━───━ ♚ ━───━
-て [𝘈𝘌𝘒𝘈𝘕 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)➤
+࿐ [𝘈𝘌𝘒𝘖 𝘊𝘩𝘢𝘯𝘯𝘦𝘭](t.me/SoalfLove)
 ]]
 Dev_Aek(msg.chat_id_, msg.id_, 1, (Help or text), 1, 'md')
 end
