@@ -683,7 +683,11 @@ local UserName = (dp.username_ or "SoalfLove")
 for gmatch in string.gmatch(dp.first_name_, "[^%s]+") do
 dp.first_name_ = gmatch
 end
-if status == "reply" then
+if status == "WrongWay" then
+Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ عذرا عزيزي ↫ ["..dp.first_name_.."](T.me/"..UserName..")".."\n"..text, 1, 'md')
+return false
+end
+if status == "Reply" then
 Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ العضو ↫ ["..dp.first_name_.."](T.me/"..UserName..")".."\n"..text, 1, 'md')
 return false
 end
@@ -1628,13 +1632,7 @@ if not Manager(msg) then
 local filter = DevAek:smembers(AEK.."Aek:FilterPhoto"..msg.chat_id_)
 for k,v in pairs(filter) do
 if v == msg.content_.photo_.id_ then
-tdcli_function({ID = "GetUser",user_id_ = msg.sender_user_id_},function(arg,data) 
-if data.username_ ~= false then
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ عذرا عزيزي ↫ [@"..data.username_.."]\n♚∫ الصوره التي ارسلتها تم منعها من المجموعه", 1, 'md')
-else
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ عذرا عزيزي ↫ ["..data.first_name_.."](T.ME/SoalfLove)\n♚∫ الصوره التي ارسلتها تم منعها من المجموعه", 1, 'md')
-end
-end,nil)   
+ReplyStatus(msg,msg.sender_user_id_,"WrongWay","♚∫ الصوره التي ارسلتها تم منعها من المجموعه")  
 DeleteMessage(msg.chat_id_,{[0] = msg.id_})       
 return false   
 end
@@ -1646,13 +1644,7 @@ if not Manager(msg) then
 local filter = DevAek:smembers(AEK.."Aek:FilterAnimation"..msg.chat_id_)
 for k,v in pairs(filter) do
 if v == msg.content_.animation_.animation_.persistent_id_ then
-tdcli_function({ID = "GetUser",user_id_ = msg.sender_user_id_},function(arg,data) 
-if data.username_ ~= false then
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ عذرا عزيزي ↫ [@"..data.username_.."]\n♚∫ المتحركه التي ارسلتها تم منعها من المجموعه", 1, 'md')
-else
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ عذرا عزيزي ↫ ["..data.first_name_.."](T.ME/SoalfLove)\n♚∫ المتحركه التي ارسلتها تم منعها من المجموعه", 1, 'md')
-end
-end,nil)   
+ReplyStatus(msg,msg.sender_user_id_,"WrongWay","♚∫ المتحركه التي ارسلتها تم منعها من المجموعه")  
 DeleteMessage(msg.chat_id_,{[0] = msg.id_})       
 return false   
 end
@@ -1664,13 +1656,7 @@ if not Manager(msg) then
 local filter = DevAek:smembers(AEK.."Aek:FilterSteckr"..msg.chat_id_)
 for k,v in pairs(filter) do
 if v == msg.content_.sticker_.sticker_.persistent_id_ then
-tdcli_function({ID = "GetUser",user_id_ = msg.sender_user_id_},function(arg,data) 
-if data.username_ ~= false then
-Dev_Aek(msg.chat_id_,0, 1, "♚∫ عذرا عزيزي ↫ [@"..data.username_.."]\n♚∫ الملصق الذي ارسلته تم منعه من المجموعه", 1, 'md')
-else
-Dev_Aek(msg.chat_id_,0, 1, "♚∫ عذرا عزيزي ↫ ["..data.first_name_.."](T.ME/SoalfLove)\n♚∫ الملصق الذي ارسلته تم منعه من المجموعه", 1, 'md')
-end
-end,nil)   
+ReplyStatus(msg,msg.sender_user_id_,"WrongWay","♚∫ الملصق الذي ارسلته تم منعه من المجموعه")  
 DeleteMessage(msg.chat_id_,{[0] = msg.id_})
 return false   
 end
@@ -2716,50 +2702,34 @@ DevAek:del('AEKTEAM:'..AEK..'ids:user'..msg.chat_id_)
 end
 end
 --     Source AEK     --
-if text:match("طيز") or text:match("ديس") or text:match("انيجمك") or text:match("انيج") or text:match("نيج") or text:match("ديوس") or text:match("عير") or text:match("كسختك") or text:match("كسمك") or text:match("كسربك") or text:match("بلاع") or text:match("ابو العيوره") or text:match("منيوج") or text:match("كحبه") or text:match("كحاب") or text:match("اخ الكحبه") or text:match("اخو الكحبه") or text:match("الكحبه") or text:match("كسك") or text:match("طيزك") or text:match("عير بطيزك") or text:match("كس امك") or text:match("امك الكحبه") or text:match("صرم") or text:match("عيرك") or text:match("عير بيك") or text:match("صرمك") then
+if text and (text:match("طيز") or text:match("ديس") or text:match("انيجمك") or text:match("انيج") or text:match("نيج") or text:match("ديوس") or text:match("عير") or text:match("كسختك") or text:match("كسمك") or text:match("كسربك") or text:match("بلاع") or text:match("ابو العيوره") or text:match("منيوج") or text:match("كحبه") or text:match("كحاب") or text:match("اخ الكحبه") or text:match("اخو الكحبه") or text:match("الكحبه") or text:match("كسك") or text:match("طيزك") or text:match("عير بطيزك") or text:match("كس امك") or text:match("امك الكحبه") or text:match("صرم") or text:match("عيرك") or text:match("عير بيك") or text:match("صرمك")) then
 if not DevAek:get(AEK.."Aek:Lock:Fshar"..msg.chat_id_) and not VipMem(msg) then
-function get_warning(extra,result,success)
 DeleteMessage(msg.chat_id_,{[0] = msg.id_})
-Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ عذرا عزيزي ↫ ['..result.first_name_..'](https://T.me/'..(result.username_ or 'SoalfLove')..') \n♚∫ ممنوع الفشار في المجموعه', 1, 'md')
-end 
-getUser(msg.sender_user_id_,get_warning)
+ReplyStatus(msg,msg.sender_user_id_,"WrongWay","♚∫ ممنوع الفشار في المجموعه")  
 end end
---     Source AEK     --
-if text:match("ڬ") or text:match("ٺ") or text:match("چ") or text:match("ڇ") or text:match("ڿ") or text:match("ڀ") or text:match("ڎ") or text:match("ݫ") or text:match("ژ") or text:match("ڟ") or text:match("ݜ") or text:match("ڸ") or text:match("پ") or text:match("۴") or text:match("مک") or text:match("زدن") or text:match("سکس") or text:match("سکسی") or text:match("کسی") or text:match("دخترا") or text:match("دیوث") or text:match("کلیپشن") or text:match("خوششون") or text:match("میدا") or text:match("که") or text:match("بدانیم") or text:match("باید") or text:match("زناشویی") or text:match("آموزش") or text:match("ۀ") or text:match("ڲ") or text:match("ڳ") or text:match("ڴ") or text:match("ڱ") or text:match("ڰ") or text:match("ڮ") or text:match("ڭ") or text:match("ڬ") or text:match("ک") or text:match("ڪ") or text:match("ګ") or text:match("ۋ") or text:match("ۊ") or text:match("ٷ") or text:match("ۅ") or text:match("ۄ") or text:match("ۈ") or text:match("ۆ") or text:match("ڐ") or text:match("ډ") or text:match("ڍ") or text:match("ڎ") or text:match("ڏ") or text:match("ۮ") or text:match("ڌ") or text:match("ڋ") or text:match("ڈ") or text:match("ۯ") or text:match("ڙ") or text:match("ڗ") or text:match("ږ") or text:match("ڑ") or text:match("ځ") or text:match("ڟ") or text:match("ڿ") or text:match("ڻ") or text:match("ڽ") or text:match("ڹ") or text:match("ں") or text:match("ٿ") or text:match("ٽ") or text:match("ٺ") or text:match("ٵ") or text:match("ڸ") or text:match("ڷ") or text:match("ڵ") or text:match("ڀ")  or text:match("ٮ") or text:match("ۑ") or text:match("ۍ") or text:match("ێ") or text:match("ې") or text:match("ٸ") or text:match("ښ") or text:match("ڛ") or text:match("څ") or text:match("ۺ") or text:match("ڜ") or text:match("ښ") or text:match("۵") or text:match("۶") or text:match("بیام") or text:match("راحتی") or text:match("برم") or text:match("خسته") or text:match("شادی") or text:match("دوستان") or text:match("خوبم") or text:match("زیباترین") or text:match("خوشکلم") or text:match("زیباتون") or text:match("بیا") or text:match("نیاری") or text:match("داداش") or text:match("میخوای") or text:match("ملایم") or text:match("تخماتو") or text:match("اومدم") or text:match("بالااااس") or text:match("بمالونم") or text:match("صبجتون") or text:match("بکشی") or text:match("رفقا") or text:match("هَوَلای‌مآن") or text:match("فراموش") or text:match("استیکر") or text:match("بشیم") or text:match("درونمی") or text:match("هیع") or text:match("کردم")  or text:match("ادد") or text:match("شماره") or text:match("شمارتو") or text:match("فیترشکن") or text:match("خوبی") or text:match("جذابیتت") or text:match("دیشب") or text:match("نشونت") or text:match("کی") or text:match("خودتون") or text:match("بیایین") or text:match("سراغ") or text:match("خنده") or text:match("صکصی") or text:match("اینجا") or text:match("نشونت") or text:match("قهرمان‌") or text:match("دیلدو") or text:match("خوب") or text:match("فراموش") or text:match("هاشون‌") or text:match("دخترا") or text:match("دیشب") or text:match("کجایین") or text:match("بزنم") or text:match("یوی") or text:match("بیام") or text:match("دیلم") or text:match("جانم") or text:match("اصلشو") or text:match("هلوشو") or text:match("نیاز") or text:match("ندارم") or text:match("عزیزم") or text:match("عشقم") or text:match("زدن") or text:match("هست") or text:match("درونمی") or text:match("بشیم") or text:match("غوغای") or text:match("فیترشکن") or text:match("جدیدامو") or text:match("کصم") or text:match("میخاره") or text:match("نزاشتن") or text:match("داری") or text:match("شمارت") or text:match("یکی") then
+if text and (text:match("ڬ") or text:match("ٺ") or text:match("چ") or text:match("ڇ") or text:match("ڿ") or text:match("ڀ") or text:match("ڎ") or text:match("ݫ") or text:match("ژ") or text:match("ڟ") or text:match("ݜ") or text:match("ڸ") or text:match("پ") or text:match("۴") or text:match("مک") or text:match("زدن") or text:match("سکس") or text:match("سکسی") or text:match("کسی") or text:match("دخترا") or text:match("دیوث") or text:match("کلیپشن") or text:match("خوششون") or text:match("میدا") or text:match("که") or text:match("بدانیم") or text:match("باید") or text:match("زناشویی") or text:match("آموزش") or text:match("ۀ") or text:match("ڲ") or text:match("ڳ") or text:match("ڴ") or text:match("ڱ") or text:match("ڰ") or text:match("ڮ") or text:match("ڭ") or text:match("ڬ") or text:match("ک") or text:match("ڪ") or text:match("ګ") or text:match("ۋ") or text:match("ۊ") or text:match("ٷ") or text:match("ۅ") or text:match("ۄ") or text:match("ۈ") or text:match("ۆ") or text:match("ڐ") or text:match("ډ") or text:match("ڍ") or text:match("ڎ") or text:match("ڏ") or text:match("ۮ") or text:match("ڌ") or text:match("ڋ") or text:match("ڈ") or text:match("ۯ") or text:match("ڙ") or text:match("ڗ") or text:match("ږ") or text:match("ڑ") or text:match("ځ") or text:match("ڟ") or text:match("ڿ") or text:match("ڻ") or text:match("ڽ") or text:match("ڹ") or text:match("ں") or text:match("ٿ") or text:match("ٽ") or text:match("ٺ") or text:match("ٵ") or text:match("ڸ") or text:match("ڷ") or text:match("ڵ") or text:match("ڀ")  or text:match("ٮ") or text:match("ۑ") or text:match("ۍ") or text:match("ێ") or text:match("ې") or text:match("ٸ") or text:match("ښ") or text:match("ڛ") or text:match("څ") or text:match("ۺ") or text:match("ڜ") or text:match("ښ") or text:match("۵") or text:match("۶") or text:match("بیام") or text:match("راحتی") or text:match("برم") or text:match("خسته") or text:match("شادی") or text:match("دوستان") or text:match("خوبم") or text:match("زیباترین") or text:match("خوشکلم") or text:match("زیباتون") or text:match("بیا") or text:match("نیاری") or text:match("داداش") or text:match("میخوای") or text:match("ملایم") or text:match("تخماتو") or text:match("اومدم") or text:match("بالااااس") or text:match("بمالونم") or text:match("صبجتون") or text:match("بکشی") or text:match("رفقا") or text:match("هَوَلای‌مآن") or text:match("فراموش") or text:match("استیکر") or text:match("بشیم") or text:match("درونمی") or text:match("هیع") or text:match("کردم")  or text:match("ادد") or text:match("شماره") or text:match("شمارتو") or text:match("فیترشکن") or text:match("خوبی") or text:match("جذابیتت") or text:match("دیشب") or text:match("نشونت") or text:match("کی") or text:match("خودتون") or text:match("بیایین") or text:match("سراغ") or text:match("خنده") or text:match("صکصی") or text:match("اینجا") or text:match("نشونت") or text:match("قهرمان‌") or text:match("دیلدو") or text:match("خوب") or text:match("فراموش") or text:match("هاشون‌") or text:match("دخترا") or text:match("دیشب") or text:match("کجایین") or text:match("بزنم") or text:match("یوی") or text:match("بیام") or text:match("دیلم") or text:match("جانم") or text:match("اصلشو") or text:match("هلوشو") or text:match("نیاز") or text:match("ندارم") or text:match("عزیزم") or text:match("عشقم") or text:match("زدن") or text:match("هست") or text:match("درونمی") or text:match("بشیم") or text:match("غوغای") or text:match("فیترشکن") or text:match("جدیدامو") or text:match("کصم") or text:match("میخاره") or text:match("نزاشتن") or text:match("داری") or text:match("شمارت") or text:match("یکی")) then
 if DevAek:get(AEK.."Aek:Lock:Farsi"..msg.chat_id_) and not VipMem(msg) then
 DeleteMessage(msg.chat_id_,{[0] = msg.id_})
-end 
-end
-if text:match("ڬ") or text:match("ٺ") or text:match("چ") or text:match("ڇ") or text:match("ڿ") or text:match("ڀ") or text:match("ڎ") or text:match("ݫ") or text:match("ژ") or text:match("ڟ") or text:match("ݜ") or text:match("ڸ") or text:match("پ") or text:match("۴") or text:match("مک") or text:match("زدن") or text:match("سکس") or text:match("سکسی") or text:match("کسی") or text:match("دخترا") or text:match("دیوث") or text:match("کلیپشن") or text:match("خوششون") or text:match("میدا") or text:match("که") or text:match("بدانیم") or text:match("باید") or text:match("زناشویی") or text:match("آموزش") or text:match("ۀ") or text:match("ڲ") or text:match("ڳ") or text:match("ڴ") or text:match("ڱ") or text:match("ڰ") or text:match("ڮ") or text:match("ڭ") or text:match("ڬ") or text:match("ک") or text:match("ڪ") or text:match("ګ") or text:match("ۋ") or text:match("ۊ") or text:match("ٷ") or text:match("ۅ") or text:match("ۄ") or text:match("ۈ") or text:match("ۆ") or text:match("ڐ") or text:match("ډ") or text:match("ڍ") or text:match("ڎ") or text:match("ڏ") or text:match("ۮ") or text:match("ڌ") or text:match("ڋ") or text:match("ڈ") or text:match("ۯ") or text:match("ڙ") or text:match("ڗ") or text:match("ږ") or text:match("ڑ") or text:match("ځ") or text:match("ڟ") or text:match("ڿ") or text:match("ڻ") or text:match("ڽ") or text:match("ڹ") or text:match("ں") or text:match("ٿ") or text:match("ٽ") or text:match("ٺ") or text:match("ٵ") or text:match("ڸ") or text:match("ڷ") or text:match("ڵ") or text:match("ڀ")  or text:match("ٮ") or text:match("ۑ") or text:match("ۍ") or text:match("ێ") or text:match("ې") or text:match("ٸ") or text:match("ښ") or text:match("ڛ") or text:match("څ") or text:match("ۺ") or text:match("ڜ") or text:match("ښ") or text:match("۵") or text:match("۶") or text:match("بیام") or text:match("راحتی") or text:match("برم") or text:match("خسته") or text:match("شادی") or text:match("دوستان") or text:match("خوبم") or text:match("زیباترین") or text:match("خوشکلم") or text:match("زیباتون") or text:match("بیا") or text:match("نیاری") or text:match("داداش") or text:match("میخوای") or text:match("ملایم") or text:match("تخماتو") or text:match("اومدم") or text:match("بالااااس") or text:match("بمالونم") or text:match("صبجتون") or text:match("بکشی") or text:match("رفقا") or text:match("هَوَلای‌مآن") or text:match("فراموش") or text:match("استیکر") or text:match("بشیم") or text:match("درونمی") or text:match("هیع") or text:match("کردم")  or text:match("ادد") or text:match("شماره") or text:match("شمارتو") or text:match("فیترشکن") or text:match("خوبی") or text:match("جذابیتت") or text:match("دیشب") or text:match("نشونت") or text:match("کی") or text:match("خودتون") or text:match("بیایین") or text:match("سراغ") or text:match("خنده") or text:match("صکصی") or text:match("اینجا") or text:match("نشونت") or text:match("قهرمان‌") or text:match("دیلدو") or text:match("خوب") or text:match("فراموش") or text:match("هاشون‌") or text:match("دخترا") or text:match("دیشب") or text:match("کجایین") or text:match("بزنم") or text:match("یوی") or text:match("بیام") or text:match("دیلم") or text:match("جانم") or text:match("اصلشو") or text:match("هلوشو") or text:match("نیاز") or text:match("ندارم") or text:match("عزیزم") or text:match("عشقم") or text:match("زدن") or text:match("هست") or text:match("درونمی") or text:match("بشیم") or text:match("غوغای") or text:match("فیترشکن") or text:match("جدیدامو") or text:match("کصم") or text:match("میخاره") or text:match("نزاشتن") or text:match("داری") or text:match("شمارت") or text:match("یکی") then
-if DevAek:get(AEK.."Aek:Lock:FarsiWarn"..msg.chat_id_) and not VipMem(msg) then
-function get_warning(extra,result,success)
-DeleteMessage(msg.chat_id_,{[0] = msg.id_})
-Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ عذرا عزيزي ↫ ['..result.first_name_..'](https://T.me/'..(result.username_ or 'SoalfLove')..') \n♚∫ ممنوع التكلم باللغه الفارسيه هنا', 1, 'md')
-end 
-getUser(msg.sender_user_id_,get_warning)
 end end
-if text:match("ڬ") or text:match("ٺ") or text:match("چ") or text:match("ڇ") or text:match("ڿ") or text:match("ڀ") or text:match("ڎ") or text:match("ݫ") or text:match("ژ") or text:match("ڟ") or text:match("ݜ") or text:match("ڸ") or text:match("پ") or text:match("۴") or text:match("مک") or text:match("زدن") or text:match("سکس") or text:match("سکسی") or text:match("کسی") or text:match("دخترا") or text:match("دیوث") or text:match("کلیپشن") or text:match("خوششون") or text:match("میدا") or text:match("که") or text:match("بدانیم") or text:match("باید") or text:match("زناشویی") or text:match("آموزش") then
+if text and (text:match("ڬ") or text:match("ٺ") or text:match("چ") or text:match("ڇ") or text:match("ڿ") or text:match("ڀ") or text:match("ڎ") or text:match("ݫ") or text:match("ژ") or text:match("ڟ") or text:match("ݜ") or text:match("ڸ") or text:match("پ") or text:match("۴") or text:match("مک") or text:match("زدن") or text:match("سکس") or text:match("سکسی") or text:match("کسی") or text:match("دخترا") or text:match("دیوث") or text:match("کلیپشن") or text:match("خوششون") or text:match("میدا") or text:match("که") or text:match("بدانیم") or text:match("باید") or text:match("زناشویی") or text:match("آموزش") or text:match("ۀ") or text:match("ڲ") or text:match("ڳ") or text:match("ڴ") or text:match("ڱ") or text:match("ڰ") or text:match("ڮ") or text:match("ڭ") or text:match("ڬ") or text:match("ک") or text:match("ڪ") or text:match("ګ") or text:match("ۋ") or text:match("ۊ") or text:match("ٷ") or text:match("ۅ") or text:match("ۄ") or text:match("ۈ") or text:match("ۆ") or text:match("ڐ") or text:match("ډ") or text:match("ڍ") or text:match("ڎ") or text:match("ڏ") or text:match("ۮ") or text:match("ڌ") or text:match("ڋ") or text:match("ڈ") or text:match("ۯ") or text:match("ڙ") or text:match("ڗ") or text:match("ږ") or text:match("ڑ") or text:match("ځ") or text:match("ڟ") or text:match("ڿ") or text:match("ڻ") or text:match("ڽ") or text:match("ڹ") or text:match("ں") or text:match("ٿ") or text:match("ٽ") or text:match("ٺ") or text:match("ٵ") or text:match("ڸ") or text:match("ڷ") or text:match("ڵ") or text:match("ڀ")  or text:match("ٮ") or text:match("ۑ") or text:match("ۍ") or text:match("ێ") or text:match("ې") or text:match("ٸ") or text:match("ښ") or text:match("ڛ") or text:match("څ") or text:match("ۺ") or text:match("ڜ") or text:match("ښ") or text:match("۵") or text:match("۶") or text:match("بیام") or text:match("راحتی") or text:match("برم") or text:match("خسته") or text:match("شادی") or text:match("دوستان") or text:match("خوبم") or text:match("زیباترین") or text:match("خوشکلم") or text:match("زیباتون") or text:match("بیا") or text:match("نیاری") or text:match("داداش") or text:match("میخوای") or text:match("ملایم") or text:match("تخماتو") or text:match("اومدم") or text:match("بالااااس") or text:match("بمالونم") or text:match("صبجتون") or text:match("بکشی") or text:match("رفقا") or text:match("هَوَلای‌مآن") or text:match("فراموش") or text:match("استیکر") or text:match("بشیم") or text:match("درونمی") or text:match("هیع") or text:match("کردم")  or text:match("ادد") or text:match("شماره") or text:match("شمارتو") or text:match("فیترشکن") or text:match("خوبی") or text:match("جذابیتت") or text:match("دیشب") or text:match("نشونت") or text:match("کی") or text:match("خودتون") or text:match("بیایین") or text:match("سراغ") or text:match("خنده") or text:match("صکصی") or text:match("اینجا") or text:match("نشونت") or text:match("قهرمان‌") or text:match("دیلدو") or text:match("خوب") or text:match("فراموش") or text:match("هاشون‌") or text:match("دخترا") or text:match("دیشب") or text:match("کجایین") or text:match("بزنم") or text:match("یوی") or text:match("بیام") or text:match("دیلم") or text:match("جانم") or text:match("اصلشو") or text:match("هلوشو") or text:match("نیاز") or text:match("ندارم") or text:match("عزیزم") or text:match("عشقم") or text:match("زدن") or text:match("هست") or text:match("درونمی") or text:match("بشیم") or text:match("غوغای") or text:match("فیترشکن") or text:match("جدیدامو") or text:match("کصم") or text:match("میخاره") or text:match("نزاشتن") or text:match("داری") or text:match("شمارت") or text:match("یکی")) then
+if DevAek:get(AEK.."Aek:Lock:FarsiWarn"..msg.chat_id_) and not VipMem(msg) then
+DeleteMessage(msg.chat_id_,{[0] = msg.id_})
+ReplyStatus(msg,msg.sender_user_id_,"WrongWay","♚∫ ممنوع التكلم باللغه الفارسيه هنا")  
+end end
+if text and (text:match("ڬ") or text:match("ٺ") or text:match("چ") or text:match("ڇ") or text:match("ڿ") or text:match("ڀ") or text:match("ڎ") or text:match("ݫ") or text:match("ژ") or text:match("ڟ") or text:match("ݜ") or text:match("ڸ") or text:match("پ") or text:match("۴") or text:match("مک") or text:match("زدن") or text:match("سکس") or text:match("سکسی") or text:match("کسی") or text:match("دخترا") or text:match("دیوث") or text:match("کلیپشن") or text:match("خوششون") or text:match("میدا") or text:match("که") or text:match("بدانیم") or text:match("باید") or text:match("زناشویی") or text:match("آموزش")) then
 if DevAek:get(AEK.."Aek:Lock:FarsiBan"..msg.chat_id_) and not VipMem(msg) then
 DeleteMessage(msg.chat_id_,{[0] = msg.id_})
 ChatKick(msg.chat_id_, msg.sender_user_id_)
 end end
---     Source AEK     --
-if text:match("خره بالله") or text:match("خبربك") or text:match("كسدينربك") or text:match("خرب بالله") or text:match("خرب الله") or text:match("خره بربك") or text:match("الله الكواد") or text:match("خره بمحمد") or text:match("كسم الله") or text:match("كسم ربك") or text:match("كسربك") or text:match("كسختالله") or text:match("كسخت الله") or text:match("خره بدينك") or text:match("خرهبدينك") or text:match("كسالله") or text:match("خربالله") then
+if text and (text:match("خره بالله") or text:match("خبربك") or text:match("كسدينربك") or text:match("خرب بالله") or text:match("خرب الله") or text:match("خره بربك") or text:match("الله الكواد") or text:match("خره بمحمد") or text:match("كسم الله") or text:match("كسم ربك") or text:match("كسربك") or text:match("كسختالله") or text:match("كسخت الله") or text:match("خره بدينك") or text:match("خرهبدينك") or text:match("كسالله") or text:match("خربالله")) then
 if not DevAek:get(AEK.."Aek:Lock:Kfr"..msg.chat_id_) and not VipMem(msg) then
-function get_warning(extra,result,success)
 DeleteMessage(msg.chat_id_,{[0] = msg.id_})
-Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ عذرا عزيزي ↫ ['..result.first_name_..'](https://T.me/'..(result.username_ or 'SoalfLove')..') \n♚∫ ممنوع الكفر في المجموعه', 1, 'md')
-end 
-getUser(msg.sender_user_id_,get_warning)
+ReplyStatus(msg,msg.sender_user_id_,"WrongWay","♚∫ ممنوع الكفر في المجموعه") 
 end end
---     Source AEK     --
-if text:match("شيعي نكس") or text:match("سني نكس") or text:match("شيعه") or text:match("الشيعه") or text:match("السنه") or text:match("طائفتكم") or text:match("شيعي") or text:match("انا سني") or text:match("انا شيعي") or text:match("مسيحي") or text:match("يهودي") or text:match("صابئي") or text:match("ملحد") or text:match("بالسنه") or text:match("بالشيعه") or text:match("شيعة") then
+if text and (text:match("شيعي نكس") or text:match("سني نكس") or text:match("شيعه") or text:match("الشيعه") or text:match("السنه") or text:match("طائفتكم") or text:match("شيعي") or text:match("انا سني") or text:match("انا شيعي") or text:match("مسيحي") or text:match("يهودي") or text:match("صابئي") or text:match("ملحد") or text:match("بالسنه") or text:match("بالشيعه") or text:match("شيعة")) then
 if not DevAek:get(AEK.."Aek:Lock:Taf"..msg.chat_id_) and not VipMem(msg) then
-function get_warning(extra,result,success)
 DeleteMessage(msg.chat_id_,{[0] = msg.id_})
-Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ عذرا عزيزي ↫ ['..result.first_name_..'](https://T.me/'..(result.username_ or 'SoalfLove')..') \n♚∫ ممنوع التكلم بالطائفيه هنا', 1, 'md')
-end 
-getUser(msg.sender_user_id_,get_warning)
+ReplyStatus(msg,msg.sender_user_id_,"WrongWay","♚∫ ممنوع التكلم بالطائفيه هنا") 
 end end
 --     Source AEK     --
 if SecondSudo(msg) then
@@ -3620,6 +3590,14 @@ return https.request("https://api.telegram.org/bot"..TokenBot..'/sendMessage?cha
 end,nil) 
 end
 --     Source AEK     --
+if text == 'صراحه' and ChCheck(msg) or text == 'الصراحه' and ChCheck(msg) then
+if not DevAek:get(AEK..'Aek:Lock:Games'..msg.chat_id_) then
+local AEKTEAM = {"وين تحب تسافر؟•","فنانك المفضل؟•","اغنيتك المفضله؟•","اسمك الحقيقي نفسه اسمك بالتلي؟؟•","حبيبك/ج منوو؟ •","اكثر دكه ناقصه سويتها","تعرف شكد احبك؟ •","عيونك يالون؟•","اسم التحبه/تحبي؟؟•","نوع من الطعام لا تحبه؟•","تعرف ايكو؟؟•","أي من الألوان تفضل؟•"," اخر شي سويت/ي؟؟•","هل تحب الألوان الدافئة؟ أم تفضل الألوان النارية؟•","هل تسامح شخص ظلمك ثم أتاك معتذراً يشعر بالأسى والألم؟•","تدري انته/ي عسل","‏ما هي الصفة التي تبتعد عن الآخرين بسببها؟•","ما هي ميولك وهوياتك؟ وهل تمارسها وتحاول تنميتها أم لا؟•","فكرة خاطئة منتشرة عند البنات؟•","فكرة خاطئة منتشرة عند الشباب؟•","ما هو اسمك الحركي الذي يناديك به الآخرين؟•","من هو صديقك المقرب؟ وكيف كانت معرفتك به في البداية؟•","هل تنسى إساءة الآخرين لك؟ أم أنك صعب نسيان الإساءة؟•","ما هو أكثر شيء لا تقبل المزاح بشأنه؟•","هل تميل للنقاشات الحادة التي تحاول أن تثبت فيها صحة آرائك؟ أم تفضل النقاشات الودية المرنة؟•","هل تتذكر السبب الذي بكيت من أجله أخر مرة؟•","هل أنت من الشخصيات التي تؤمن بالحب منذ النظرة الأولى؟•","ما هو أكثر شيء يجعلك تشعر بالخوف في العلاقات العاطفية؟•","ما هي المواقف التي تدفعك لقسوة القلب؟•","ما هي أسعد اللحظات التي عشتها بحياتك ولا تفارق ذاكرتك؟•","من هو الشخص الذي من الممكن أن تبكي أمامه وتختاره أن يمسح دموعك؟•","ما هي ردة فعلك إن أخبرك حبيبك بحبه! ولكنه لن يستطيع أن يتزوجك؟•","في حال خطأك هل تعتذر وتعترف بخطأك؟ أم يمنعك كبريائك من الاعتذار؟•","ما هي أفضل مراحل حياتك وتود عودتها مرة أخرى؟•","هل تضطر إلى الكذب في بعض المواقف؟ وماهي المواقف التي من الممكن أن تكون دافعاً لتكذب؟•","كم تبلغ من العمر؟ هل تشعر أن حياتك التي تعيشها مناسبة لعمرك هذا أم تعيش حياة أكبر أو أصغر من عمرك؟• ","هل مدمن ع شي متكدر تتركه؟•"}
+Dev_Aek(msg.chat_id_, msg.id_, 1, ''..AEKTEAM[math.random(#AEKTEAM)]..'' , 1, 'md')  
+return false
+end
+end
+--     Source AEK     --
 if text == 'الالعاب' and ChCheck(msg) or text == 'العاب' and ChCheck(msg) or text == 'اللعبه' and ChCheck(msg) then
 if not DevAek:get(AEK..'Aek:Lock:Games'..msg.chat_id_) then
 Dev_Aek(msg.chat_id_, msg.id_, 1,[[
@@ -3633,6 +3611,7 @@ Dev_Aek(msg.chat_id_, msg.id_, 1,[[
 ♚∫ لعبة الحزوره ↫ حزوره
 ♚∫ لعبة الترتيب ↫ ترتيب
 ♚∫ لعبة المعاني ↫ معاني
+♚∫ لعبة الصراحه ↫ صراحه
 ♚∫ لعبة المختلف ↫ المختلف
 ♚∫ لعبة السمايلات ↫ سمايلات
 ♚∫ لعبة المحيبس ↫ المحيبس
@@ -4137,9 +4116,9 @@ if DevAek:sismember(AEK..'Aek:Cleaner:'..msg.chat_id_, result.sender_user_id_) t
 cleaner = 'المنظفين • ' else cleaner = ''
 end
 if RankChecking(result.sender_user_id_,msg.chat_id_) ~= false then
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من ↫ ⤈\n~ ( "..secondsudo..''..sudobot..''..managerall..''..adminall..''..vpall..''..basicconstructor..''..constructor..''..manager..''..admins..''..vipmem..''..cleaner.." ) ~")
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من ↫ ⤈\n~ ( "..secondsudo..''..sudobot..''..managerall..''..adminall..''..vpall..''..basicconstructor..''..constructor..''..manager..''..admins..''..vipmem..''..cleaner.." ) ~")
 else 
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ لم تتم ترقيته مسبقا")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ لم تتم ترقيته مسبقا")  
 end
 if AekDelAll(msg.sender_user_id_,msg.chat_id_) == 'sudoid' then
 DevAek:srem(AEK..'Aek:SecondSudo:', result.sender_user_id_)
@@ -4220,9 +4199,9 @@ if DevAek:sismember(AEK..'Aek:Cleaner:'..msg.chat_id_, result.id_) then
 cleaner = 'المنظفين • ' else cleaner = ''
 end
 if RankChecking(result.id_,msg.chat_id_) ~= false then
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من ↫ ⤈\n~ ( "..secondsudo..''..sudobot..''..managerall..''..adminall..''..vpall..''..basicconstructor..''..constructor..''..manager..''..admins..''..vipmem..''..cleaner.." ) ~")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من ↫ ⤈\n~ ( "..secondsudo..''..sudobot..''..managerall..''..adminall..''..vpall..''..basicconstructor..''..constructor..''..manager..''..admins..''..vipmem..''..cleaner.." ) ~")  
 else 
-ReplyStatus(msg,result.id_,"reply","♚∫ لم تتم ترقيته مسبقا")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ لم تتم ترقيته مسبقا")  
 end 
 if AekDelAll(msg.sender_user_id_,msg.chat_id_) == 'sudoid' then
 DevAek:srem(AEK..'Aek:SecondSudo:', result.id_)
@@ -4279,7 +4258,7 @@ if Sudo(msg) then
 if text ==('اضف مطور ثانوي') or text ==('رفع مطور ثانوي') and ChCheck(msg) then
 function sudo_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:SecondSudo:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المطورين الثانويين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المطورين الثانويين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4290,7 +4269,7 @@ local username = text:match('^اضف مطور ثانوي @(.*)') or text:match('
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:SecondSudo:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة المطورين الثانويين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المطورين الثانويين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4299,14 +4278,14 @@ end
 if text and (text:match('^اضف مطور ثانوي (%d+)') or text:match('^رفع مطور ثانوي (%d+)')) and ChCheck(msg) then
 local user = text:match('اضف مطور ثانوي (%d+)') or text:match('رفع مطور ثانوي (%d+)')
 DevAek:sadd(AEK..'Aek:SecondSudo:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة المطورين الثانويين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المطورين الثانويين")  
 end
 --     Source AEK     --
 --     Rem SecondSudo     --
 if text ==('حذف مطور ثانوي') or text ==('تنزيل مطور ثانوي') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:SecondSudo:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المطورين الثانويين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المطورين الثانويين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4317,7 +4296,7 @@ local username = text:match('^حذف مطور ثانوي @(.*)') or text:match('
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:SecondSudo:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة المطورين الثانويين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المطورين الثانويين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4326,7 +4305,7 @@ end
 if text and (text:match('^حذف مطور ثانوي (%d+)') or text:match('^تنزيل مطور ثانوي (%d+)')) and ChCheck(msg) then
 local user = text:match('حذف مطور ثانوي (%d+)') or text:match('تنزيل مطور ثانوي (%d+)')
 DevAek:srem(AEK..'Aek:SecondSudo:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة المطورين الثانويين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المطورين الثانويين")  
 end end
 --     Source AEK     --
 --       Set SudoBot      --
@@ -4334,7 +4313,7 @@ if SecondSudo(msg) then
 if text ==('رفع مطور') and ChCheck(msg) then
 function sudo_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:SudoBot:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المطورين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المطورين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4345,7 +4324,7 @@ local username = text:match('^رفع مطور @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:SudoBot:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة المطورين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المطورين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4354,14 +4333,14 @@ end
 if text and text:match('^رفع مطور (%d+)') and ChCheck(msg) then
 local user = text:match('رفع مطور (%d+)')
 DevAek:sadd(AEK..'Aek:SudoBot:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة المطورين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المطورين")  
 end
 --     Source AEK     --
 --       Rem SudoBot      --
 if text ==('تنزيل مطور') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:SudoBot:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المطورين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المطورين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4372,7 +4351,7 @@ local username = text:match('^تنزيل مطور @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:SudoBot:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة المطورين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المطورين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4381,7 +4360,7 @@ end
 if text and text:match('^تنزيل مطور (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل مطور (%d+)')
 DevAek:srem(AEK..'Aek:SudoBot:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة المطورين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المطورين")  
 end end
 --     Source AEK     --
 --      Set ManagerAll    --
@@ -4389,7 +4368,7 @@ if SudoBot(msg) then
 if text ==('رفع مدير عام') and ChCheck(msg) then
 function raf_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:ManagerAll:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المدراء العامين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المدراء العامين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4400,7 +4379,7 @@ local username = text:match('^رفع مدير عام @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:ManagerAll:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة المدراء العامين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المدراء العامين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4409,14 +4388,14 @@ end
 if text and text:match('^رفع مدير عام (%d+)') and ChCheck(msg) then
 local user = text:match('رفع مدير عام (%d+)')
 DevAek:sadd(AEK..'Aek:ManagerAll:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة المدراء العامين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المدراء العامين")  
 end
 --     Source AEK     --
 --      Rem ManagerAll    --
 if text ==('تنزيل مدير عام') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:ManagerAll:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المدراء العامين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المدراء العامين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4427,7 +4406,7 @@ local username = text:match('^تنزيل مدير عام @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:ManagerAll:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة المدراء العامين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المدراء العامين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4436,7 +4415,7 @@ end
 if text and text:match('^تنزيل مدير عام (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل مدير عام (%d+)')
 DevAek:srem(AEK..'Aek:ManagerAll:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة المدراء العامين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المدراء العامين")  
 end end
 --     Source AEK     --
 --      Set adminall      --
@@ -4444,7 +4423,7 @@ if ManagerAll(msg) then
 if text ==('رفع ادمن عام') and ChCheck(msg) then
 function raf_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:AdminAll:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة الادمنيه العامين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة الادمنيه العامين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4455,7 +4434,7 @@ local username = text:match('^رفع ادمن عام @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:AdminAll:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة الادمنيه العامين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة الادمنيه العامين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4464,14 +4443,14 @@ end
 if text and text:match('^رفع ادمن عام (%d+)') and ChCheck(msg) then
 local user = text:match('رفع ادمن عام (%d+)')
 DevAek:sadd(AEK..'Aek:AdminAll:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة الادمنيه العامين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة الادمنيه العامين")  
 end
 --     Source AEK     --
 --      Rem adminall      --
 if text ==('تنزيل ادمن عام') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:AdminAll:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة الادمنيه العامين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة الادمنيه العامين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4482,7 +4461,7 @@ local username = text:match('^تنزيل ادمن عام @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:AdminAll:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة الادمنيه العامين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة الادمنيه العامين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4491,7 +4470,7 @@ end
 if text and text:match('^تنزيل ادمن عام (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل ادمن عام (%d+)')
 DevAek:srem(AEK..'Aek:AdminAll:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة الادمنيه العامين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة الادمنيه العامين")  
 end end
 --     Source AEK     --
 --       Set Vipall       --
@@ -4499,7 +4478,7 @@ if AdminAll(msg) then
 if text ==('رفع مميز عام') and ChCheck(msg) then
 function raf_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:VipAll:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المميزين العام")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المميزين العام")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4510,7 +4489,7 @@ local username = text:match('^رفع مميز عام @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:VipAll:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة المميزين العام")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المميزين العام")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4519,14 +4498,14 @@ end
 if text and text:match('^رفع مميز عام (%d+)') and ChCheck(msg) then
 local user = text:match('رفع مميز عام (%d+)')
 DevAek:sadd(AEK..'Aek:VipAll:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة المميزين العام")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المميزين العام")  
 end
 --     Source AEK     --
 --       Rem Vipall       --
 if text ==('تنزيل مميز عام') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:VipAll:',result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المميزين العام")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المميزين العام")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4537,7 +4516,7 @@ local username = text:match('^تنزيل مميز عام @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:VipAll:',result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة المميزين العام")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المميزين العام")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4546,7 +4525,7 @@ end
 if text and text:match('^تنزيل مميز عام (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل مميز عام (%d+)')
 DevAek:srem(AEK..'Aek:VipAll:',user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة المميزين العام")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المميزين العام")  
 end end
 --     Source AEK     --
 --  Set BasicConstructor  --
@@ -4555,7 +4534,7 @@ if AekConstructor(msg) then
 if text ==('رفع منشئ اساسي') and ChCheck(msg) then
 function raf_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:BasicConstructor:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه منشئ اساسي")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه منشئ اساسي")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4566,7 +4545,7 @@ local username = text:match('^رفع منشئ اساسي @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:BasicConstructor:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه منشئ اساسي")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه منشئ اساسي")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4575,14 +4554,14 @@ end
 if text and text:match('^رفع منشئ اساسي (%d+)') and ChCheck(msg) then
 local user = text:match('رفع منشئ اساسي (%d+)')
 DevAek:sadd(AEK..'Aek:BasicConstructor:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه منشئ اساسي")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه منشئ اساسي")  
 end
 --     Source AEK     --
 --  Rem BasicConstructor  --
 if text ==('تنزيل منشئ اساسي') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:BasicConstructor:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله منشئ اساسي")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله منشئ اساسي")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4593,7 +4572,7 @@ local username = text:match('^تنزيل منشئ اساسي @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:BasicConstructor:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله منشئ اساسي")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله منشئ اساسي")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4602,7 +4581,7 @@ end
 if text and text:match('^تنزيل منشئ اساسي (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل منشئ اساسي (%d+)')
 DevAek:srem(AEK..'Aek:BasicConstructor:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله منشئ اساسي")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله منشئ اساسي")  
 end end
 if text ==('رفع منشئ اساسي') and not AekConstructor(msg) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ هذا الامر لمنشئ المجموعه والمطورين فقط', 1, 'md')
@@ -4613,7 +4592,7 @@ if BasicConstructor(msg) then
 if text ==('رفع منشئ') and ChCheck(msg) then
 function raf_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:Constructor:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المنشئين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المنشئين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4624,7 +4603,7 @@ local username = text:match('^رفع منشئ @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:Constructor:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة المنشئين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المنشئين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4633,14 +4612,14 @@ end
 if text and text:match('^رفع منشئ (%d+)') and ChCheck(msg) then
 local user = text:match('رفع منشئ (%d+)')
 DevAek:sadd(AEK..'Aek:Constructor:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة المنشئين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المنشئين")  
 end
 --     Source AEK     --
 --    Rem  Constructor    --
 if text ==('تنزيل منشئ') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:Constructor:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المنشئين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المنشئين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4651,7 +4630,7 @@ local username = text:match('^تنزيل منشئ @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:Constructor:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة المنشئين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المنشئين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4660,7 +4639,7 @@ end
 if text and text:match('^تنزيل منشئ (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل منشئ (%d+)')
 DevAek:srem(AEK..'Aek:Constructor:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة المنشئين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المنشئين")  
 end 
 end
 --     Source AEK     --
@@ -4669,7 +4648,7 @@ if Constructor(msg) then
 if text ==('رفع مدير') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:Managers:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المدراء")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المدراء")  
 end  
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4680,7 +4659,7 @@ local username = text:match('^رفع مدير @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:Managers:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة المدراء")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المدراء")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4689,14 +4668,14 @@ end
 if text and text:match('^رفع مدير (%d+)') and ChCheck(msg) then
 local user = text:match('رفع مدير (%d+)')
 DevAek:sadd(AEK..'Aek:Managers:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة المدراء")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المدراء")  
 end
 --     Source AEK     --
 --       Rem Manager      --
 if text ==('تنزيل مدير') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:Managers:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المدراء")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المدراء")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4707,7 +4686,7 @@ local username = text:match('^تنزيل مدير @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:Managers:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة المدراء")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المدراء")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4716,14 +4695,14 @@ end
 if text and text:match('^تنزيل مدير (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل مدير (%d+)')
 DevAek:srem(AEK..'Aek:Managers:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة المدراء")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المدراء")  
 end 
 --     Source AEK     --
 --       Set Cleaner      --
 if text ==('رفع منظف') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:sadd(AEK..'Aek:Cleaner:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المنظفين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المنظفين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4734,7 +4713,7 @@ local username = text:match('^رفع منظف @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:sadd(AEK..'Aek:Cleaner:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة المنظفين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المنظفين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4743,14 +4722,14 @@ end
 if text and text:match('^رفع منظف (%d+)') and ChCheck(msg) then
 local user = text:match('رفع منظف (%d+)')
 DevAek:sadd(AEK..'Aek:Cleaner:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة المنظفين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المنظفين")  
 end
 --     Source AEK     --
 --       Rem Cleaner      --
 if text ==('تنزيل منظف') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:Cleaner:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المنظفين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المنظفين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4761,7 +4740,7 @@ local username = text:match('^تنزيل منظف @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:Cleaner:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة المنظفين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المنظفين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4770,7 +4749,7 @@ end
 if text and text:match('^تنزيل منظف (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل منظف (%d+)')
 DevAek:srem(AEK..'Aek:Cleaner:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة المنظفين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المنظفين")  
 end end
 --     Source AEK     --
 --       Set admin        --
@@ -4782,7 +4761,7 @@ Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ لاتستطيع رفع احد وذال
 return false
 end
 DevAek:sadd(AEK..'Aek:Admins:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة الادمنيه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة الادمنيه")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4797,7 +4776,7 @@ return false
 end
 if result.id_ then
 DevAek:sadd(AEK..'Aek:Admins:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة الادمنيه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة الادمنيه")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4810,14 +4789,14 @@ Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ لاتستطيع رفع احد وذال
 return false
 end
 DevAek:sadd(AEK..'Aek:Admins:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة الادمنيه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة الادمنيه")  
 end
 --     Source AEK     --
 --        Rem admin       --
 if text ==('تنزيل ادمن') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:Admins:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة الادمنيه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة الادمنيه")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4828,7 +4807,7 @@ local username = text:match('^تنزيل ادمن @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:Admins:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة الادمنيه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة الادمنيه")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4837,7 +4816,7 @@ end
 if text and text:match('^تنزيل ادمن (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل ادمن (%d+)')
 DevAek:srem(AEK..'Aek:Admins:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة الادمنيه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة الادمنيه")  
 end end
 --     Source AEK     --
 --       Set Vipmem       --
@@ -4849,7 +4828,7 @@ Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ لاتستطيع رفع احد وذال
 return false
 end
 DevAek:sadd(AEK..'Aek:VipMem:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المميزين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المميزين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4864,7 +4843,7 @@ return false
 end
 if result.id_ then
 DevAek:sadd(AEK..'Aek:VipMem:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفعه في قائمة المميزين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المميزين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4877,14 +4856,14 @@ Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ لاتستطيع رفع احد وذال
 return false
 end
 DevAek:sadd(AEK..'Aek:VipMem:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم رفعه في قائمة المميزين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المميزين")  
 end
 --     Source AEK     --
 --       Rem Vipmem       --
 if text ==('تنزيل مميز') and ChCheck(msg) then
 function prom_reply(extra, result, success)
 DevAek:srem(AEK..'Aek:VipMem:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المميزين")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المميزين")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -4895,7 +4874,7 @@ local username = text:match('^تنزيل مميز @(.*)')
 function promreply(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:VipMem:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تنزيله من قائمة المميزين")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المميزين")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -4904,7 +4883,7 @@ end
 if text and text:match('^تنزيل مميز (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل مميز (%d+)')
 DevAek:srem(AEK..'Aek:VipMem:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"reply","♚∫ تم تنزيله من قائمة المميزين")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المميزين")  
 end end 
 --     Source AEK     --
 if BasicConstructor(msg) then
@@ -4914,7 +4893,7 @@ local Check = https.request('https://api.telegram.org/bot'..TokenBot..'/getChatM
 local GetInfo = JSON.decode(Check)
 if GetInfo.result.can_promote_members == true then 
 HTTPS.request("https://api.telegram.org/bot" .. TokenBot .. "/promoteChatMember?chat_id=" .. msg.chat_id_ .. "&user_id=" ..result.sender_user_id_.."&can_change_info=True&can_delete_messages=True&can_invite_users=True&can_restrict_members=True&can_pin_messages=True&can_promote_members=false")
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه مشرف في المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه مشرف في المجموعه")  
 else
 Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ ليست لدي صلاحية اضافة مشرفين جدد يرجى التحقق من الصلاحيات', 1, 'md')
 end
@@ -4927,7 +4906,7 @@ local Check = https.request('https://api.telegram.org/bot'..TokenBot..'/getChatM
 local GetInfo = JSON.decode(Check)
 if GetInfo.result.can_promote_members == true then 
 HTTPS.request("https://api.telegram.org/bot" .. TokenBot .. "/promoteChatMember?chat_id=" .. msg.chat_id_ .. "&user_id=" ..result.sender_user_id_.."&can_change_info=false&can_delete_messages=false&can_invite_users=false&can_restrict_members=false&can_pin_messages=false&can_promote_members=false")
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من مشرفين المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من مشرفين المجموعه")  
 else
 Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ ليست لدي صلاحية اضافة مشرفين جدد يرجى التحقق من الصلاحيات', 1, 'md')
 end
@@ -4940,7 +4919,7 @@ local Check = https.request('https://api.telegram.org/bot'..TokenBot..'/getChatM
 local GetInfo = JSON.decode(Check)
 if GetInfo.result.can_promote_members == true then 
 HTTPS.request("https://api.telegram.org/bot" .. TokenBot .. "/promoteChatMember?chat_id=" .. msg.chat_id_ .. "&user_id=" ..result.sender_user_id_.."&can_change_info=True&can_delete_messages=True&can_invite_users=True&can_restrict_members=True&can_pin_messages=True&can_promote_members=True")
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه مشرف في جميع الصلاحيات")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه مشرف في جميع الصلاحيات")  
 else
 Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ ليست لدي صلاحية اضافة مشرفين جدد يرجى التحقق من الصلاحيات', 1, 'md')
 end
@@ -4954,7 +4933,7 @@ local Check = https.request('https://api.telegram.org/bot'..TokenBot..'/getChatM
 local GetInfo = JSON.decode(Check)
 if GetInfo.result.can_promote_members == true then 
 https.request("https://api.telegram.org/bot"..TokenBot.."/promoteChatMember?chat_id=" .. msg.chat_id_ .. "&user_id=" ..result.sender_user_id_.."&can_change_info=false&can_delete_messages=false&can_invite_users=True&can_restrict_members=false&can_pin_messages=True&can_promote_members=false")
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم اضافة ↫ "..Aek.." كلقب له")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم اضافة ↫ "..Aek.." كلقب له")  
 https.request("https://api.telegram.org/bot"..TokenBot.."/setChatAdministratorCustomTitle?chat_id=" .. msg.chat_id_ .. "&user_id=" ..result.sender_user_id_.."&custom_title="..Aek)
 else
 Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ ليست لدي صلاحية اضافة مشرفين جدد يرجى التحقق من الصلاحيات', 1, 'md')
@@ -5056,7 +5035,7 @@ send(msg.chat_id_,msg.id_,"♚∫ لا استطيع طرد مشرفين المج
 return false  
 end
 ChatKick(result.chat_id_, result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم طرده من المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم طرده من المجموعه")  
 end,nil)
 end
 end 
@@ -5085,7 +5064,7 @@ send(msg.chat_id_,msg.id_,"♚∫ لا استطيع طرد مشرفين المج
 return false  
 end
 ChatKick(msg.chat_id_, result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم طرده من المجموعه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم طرده من المجموعه")  
 end,nil)
 end
 else 
@@ -5112,7 +5091,7 @@ send(msg.chat_id_,msg.id_,"♚∫ لا استطيع طرد مشرفين المج
 return false  
 end
 ChatKick(msg.chat_id_, user)
-ReplyStatus(msg,user,"reply","♚∫ تم طرده من المجموعه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم طرده من المجموعه")  
 end,nil)
 end
 end
@@ -5120,8 +5099,7 @@ end
 --     Source AEK     --
 --          Ban           --
 if Admin(msg) then
-local text = msg.content_.text_:gsub('حضر','حظر')
-if text ==('حظر') and ChCheck(msg) then
+if text ==('حضر') and ChCheck(msg) or text ==('حظر') and ChCheck(msg) then
 function BanReply(extra, result, success)
 if not Constructor(msg) and DevAek:get(AEK.."Aek:Lock:KickBan"..msg.chat_id_) then 
 send(msg.chat_id_, msg.id_,'♚∫ لقد تم تعطيل الطرد والحظر من قبل المنشئين')
@@ -5141,7 +5119,7 @@ return false
 end
 ChatKick(result.chat_id_, result.sender_user_id_)
 DevAek:sadd(AEK..'Aek:Ban:'..msg.chat_id_, result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم حظره من المجموعه") 
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم حظره من المجموعه") 
 end,nil) 
 end 
 end 
@@ -5149,8 +5127,8 @@ if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
 getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),BanReply)
 end end
-if text and text:match('^حظر @(.*)') and ChCheck(msg) then
-local username = text:match('^حظر @(.*)')
+if text and (text:match('^حضر @(.*)') or text:match('^حظر @(.*)')) and ChCheck(msg) then
+local username = text:match('^حضر @(.*)') or text:match('^حظر @(.*)')
 function BanUser(extra,result,success)
 if not Constructor(msg) and DevAek:get(AEK.."Aek:Lock:KickBan"..msg.chat_id_) then 
 send(msg.chat_id_, msg.id_,'♚∫ لقد تم تعطيل الطرد والحظر من قبل المنشئين')
@@ -5171,7 +5149,7 @@ return false
 end
 ChatKick(msg.chat_id_, result.id_)
 DevAek:sadd(AEK..'Aek:Ban:'..msg.chat_id_, result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم حظره من المجموعه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم حظره من المجموعه")  
 end,nil) 
 end
 else 
@@ -5179,8 +5157,8 @@ Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'm
 end end 
 resolve_username(username,BanUser)
 end
-if text and text:match('^حظر (%d+)') and ChCheck(msg) then
-local user = text:match('حظر (%d+)')
+if text and (text:match('^حضر (%d+)') or text:match('^حظر (%d+)')) and ChCheck(msg) then
+local user = text:match('حضر (%d+)') or text:match('حظر (%d+)')
 if not Constructor(msg) and DevAek:get(AEK.."Aek:Lock:KickBan"..msg.chat_id_) then 
 send(msg.chat_id_, msg.id_,'♚∫ لقد تم تعطيل الطرد والحظر من قبل المنشئين')
 return false
@@ -5199,40 +5177,39 @@ return false
 end
 ChatKick(msg.chat_id_, user)
 DevAek:sadd(AEK..'Aek:Ban:'..msg.chat_id_, user)
-ReplyStatus(msg,user,"reply","♚∫ تم حظره من المجموعه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم حظره من المجموعه")  
 end,nil) 
 end
 end
 --     Source AEK     --
 --         UnBan          --
-local text = msg.content_.text_:gsub('الغاء الحظر','الغاء حظر')
-if text ==('الغاء حظر') and ChCheck(msg) then
+if text ==('الغاء الحظر') and ChCheck(msg) or text ==('الغاء حظر') and ChCheck(msg) then
 function UnBanReply(extra, result, success)
 DevAek:srem(AEK..'Aek:Ban:'..msg.chat_id_, result.sender_user_id_)
 tdcli_function ({ ID = "ChangeChatMemberStatus", chat_id_ = msg.chat_id_, user_id_ = result.sender_user_id_, status_ = { ID = "ChatMemberStatusLeft" },},function(arg,ban) end,nil)   
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم الغاء حظره من المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم الغاء حظره من المجموعه")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
 getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),UnBanReply)
 end end
-if text and text:match('^الغاء حظر @(.*)') and ChCheck(msg) then
-local username = text:match('^الغاء حظر @(.*)')
+if text and (text:match('^الغاء الحظر @(.*)') or text:match('^الغاء حظر @(.*)')) and ChCheck(msg) then
+local username = text:match('^الغاء الحظر @(.*)') or text:match('^الغاء حظر @(.*)')
 function UnBanUser(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:Ban:'..msg.chat_id_, result.id_)
 tdcli_function ({ ID = "ChangeChatMemberStatus", chat_id_ = msg.chat_id_, user_id_ = result.id_, status_ = { ID = "ChatMemberStatusLeft" },},function(arg,ban) end,nil)   
-ReplyStatus(msg,result.id_,"reply","♚∫ تم الغاء حظره من المجموعه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم الغاء حظره من المجموعه")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
 resolve_username(username,UnBanUser)
 end
-if text and text:match('^الغاء حظر (%d+)') and ChCheck(msg) then
-local user = text:match('الغاء حظر (%d+)')
+if text and (text:match('^الغاء الحظر (%d+)') or text:match('^الغاء حظر (%d+)')) and ChCheck(msg) then
+local user = text:match('الغاء الحظر (%d+)') or text:match('الغاء حظر (%d+)')
 DevAek:srem(AEK..'Aek:Ban:'..msg.chat_id_, user)
 tdcli_function ({ ID = "ChangeChatMemberStatus", chat_id_ = msg.chat_id_, user_id_ = user, status_ = { ID = "ChatMemberStatusLeft" },},function(arg,ban) end,nil)   
-ReplyStatus(msg,user,"reply","♚∫ تم الغاء حظره من المجموعه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم الغاء حظره من المجموعه")  
 end 
 end 
 --     Source AEK     --
@@ -5248,10 +5225,10 @@ if RankChecking(result.sender_user_id_, result.chat_id_) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع كتم ↫ '..IdRank(result.sender_user_id_, msg.chat_id_), 1, 'md')
 else
 if DevAek:sismember(AEK..'Aek:Muted:'..msg.chat_id_, result.sender_user_id_) then
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ هو بالفعل مكتوم من المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ هو بالفعل مكتوم من المجموعه")  
 else
 DevAek:sadd(AEK..'Aek:Muted:'..msg.chat_id_, result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم كتمه من المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم كتمه من المجموعه")  
 end 
 end
 end 
@@ -5271,10 +5248,10 @@ if RankChecking(result.id_, msg.chat_id_) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع كتم ↫ '..IdRank(result.id_, msg.chat_id_), 1, 'md')
 else
 if DevAek:sismember(AEK..'Aek:Muted:'..msg.chat_id_, result.id_) then
-ReplyStatus(msg,result.id_,"reply","♚∫ هو بالفعل مكتوم من المجموعه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ هو بالفعل مكتوم من المجموعه")  
 else
 DevAek:sadd(AEK..'Aek:Muted:'..msg.chat_id_, result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم كتمه من المجموعه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم كتمه من المجموعه")  
 end
 end
 else 
@@ -5292,59 +5269,57 @@ if RankChecking(user, msg.chat_id_) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع كتم ↫ '..IdRank(user, msg.chat_id_), 1, 'md')
 else
 if DevAek:sismember(AEK..'Aek:Muted:'..msg.chat_id_, user) then
-ReplyStatus(msg,user,"reply","♚∫ هو بالفعل مكتوم من المجموعه")  
+ReplyStatus(msg,user,"Reply","♚∫ هو بالفعل مكتوم من المجموعه")  
 else
 DevAek:sadd(AEK..'Aek:Muted:'..msg.chat_id_, user)
-ReplyStatus(msg,user,"reply","♚∫ تم كتمه من المجموعه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم كتمه من المجموعه")  
 end
 end
 end
 --     Source AEK     --
 --         UnMute         --
-local text = msg.content_.text_:gsub('الغاء الكتم','الغاء كتم')
-if text ==('الغاء كتم') and ChCheck(msg) then
+if text ==('الغاء الكتم') and ChCheck(msg) or text ==('الغاء كتم') and ChCheck(msg) then
 function UnMuteReply(extra, result, success)
 if not DevAek:sismember(AEK..'Aek:Muted:'..msg.chat_id_, result.sender_user_id_) then
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ هو ليس مكتوم لالغاء كتمه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ هو ليس مكتوم لالغاء كتمه")  
 else
 DevAek:srem(AEK..'Aek:Muted:'..msg.chat_id_, result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم الغاء كتمه من المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم الغاء كتمه من المجموعه")  
 end
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
 getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),UnMuteReply)
 end end
-if text and text:match('^الغاء كتم @(.*)') and ChCheck(msg) then
-local username = text:match('^الغاء كتم @(.*)')
+if text and (text:match('^الغاء الكتم @(.*)') or text:match('^الغاء كتم @(.*)')) and ChCheck(msg) then
+local username = text:match('^الغاء الكتم @(.*)') or text:match('^الغاء كتم @(.*)')
 function UnMuteUser(extra,result,success)
 if result.id_ then
 if not DevAek:sismember(AEK..'Aek:Muted:'..msg.chat_id_, result.id_) then
-ReplyStatus(msg,result.id_,"reply","♚∫ هو ليس مكتوم لالغاء كتمه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ هو ليس مكتوم لالغاء كتمه")  
 else
 DevAek:srem(AEK..'Aek:Muted:'..msg.chat_id_, result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم الغاء كتمه من المجموعه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم الغاء كتمه من المجموعه")  
 end
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
 resolve_username(username,UnMuteUser)
 end
-if text and text:match('^الغاء كتم (%d+)') and ChCheck(msg) then
-local user = text:match('الغاء كتم (%d+)')
+if text and (text:match('^الغاء الكتم (%d+)') or text:match('^الغاء كتم (%d+)')) and ChCheck(msg) then
+local user = text:match('الغاء الكتم (%d+)') or text:match('الغاء كتم (%d+)')
 if not DevAek:sismember(AEK..'Aek:Muted:'..msg.chat_id_, user) then
-ReplyStatus(msg,user,"reply","♚∫ هو ليس مكتوم لالغاء كتمه")  
+ReplyStatus(msg,user,"Reply","♚∫ هو ليس مكتوم لالغاء كتمه")  
 else
 DevAek:srem(AEK..'Aek:Muted:'..msg.chat_id_, user)
-ReplyStatus(msg,user,"reply","♚∫ تم الغاء كتمه من المجموعه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم الغاء كتمه من المجموعه")  
 end
 end 
 end 
 --     Source AEK     --
 --          Tkeed           --
 if Admin(msg) then
-local text = msg.content_.text_:gsub('تقيد','تقييد')
-if text ==('تقييد') and ChCheck(msg) then
+if text ==('تقييد') and ChCheck(msg) or text ==('تقيد') and ChCheck(msg) then
 function TkeedReply(extra, result, success)
 if not Constructor(msg) and DevAek:get(AEK.."Aek:Lock:MuteTked"..msg.chat_id_) then 
 send(msg.chat_id_, msg.id_,'♚∫ لقد تم تعطيل الكتم والتقيد من قبل المنشئين')
@@ -5355,15 +5330,15 @@ Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع تقيد ↫ '..IdRa
 else
 HTTPS.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..result.sender_user_id_)
 DevAek:sadd(AEK..'Aek:Tkeed:'..msg.chat_id_, result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تقيده من المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تقيده من المجموعه")  
 end
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
 getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),TkeedReply)
 end end
-if text and text:match('^تقييد @(.*)') and ChCheck(msg) then
-local username = text:match('^تقييد @(.*)')
+if text and (text:match('^تقييد @(.*)') or text:match('^تقيد @(.*)')) and ChCheck(msg) then
+local username = text:match('^تقييد @(.*)') or text:match('^تقيد @(.*)')
 function TkeedUser(extra,result,success)
 if not Constructor(msg) and DevAek:get(AEK.."Aek:Lock:MuteTked"..msg.chat_id_) then 
 send(msg.chat_id_, msg.id_,'♚∫ لقد تم تعطيل الكتم والتقيد من قبل المنشئين')
@@ -5375,15 +5350,15 @@ Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع تقيد ↫ '..IdRa
 else
 HTTPS.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..result.id_)
 DevAek:sadd(AEK..'Aek:Tkeed:'..msg.chat_id_, result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم تقيده من المجموعه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم تقيده من المجموعه")  
 end
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
 resolve_username(username,TkeedUser)
 end
-if text and text:match('^تقييد (%d+)') and ChCheck(msg) then
-local user = text:match('تقييد (%d+)')
+if text and (text:match('^تقييد (%d+)') or text:match('^تقيد (%d+)')) and ChCheck(msg) then
+local user = text:match('تقييد (%d+)') or text:match('تقيد (%d+)')
 if not Constructor(msg) and DevAek:get(AEK.."Aek:Lock:MuteTked"..msg.chat_id_) then 
 send(msg.chat_id_, msg.id_,'♚∫ لقد تم تعطيل الكتم والتقيد من قبل المنشئين')
 return false
@@ -5393,47 +5368,45 @@ Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع تقيد ↫ '..IdRa
 else
 HTTPS.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..user)
 DevAek:sadd(AEK..'Aek:Tkeed:'..msg.chat_id_, user)
-ReplyStatus(msg,user,"reply","♚∫ تم تقيده من المجموعه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم تقيده من المجموعه")  
 end
 end
 --     Source AEK     --
 --         UnTkeed          --
-local text = msg.content_.text_:gsub('الغاء تقيد','الغاء تقييد')
-if text ==('الغاء تقييد') and ChCheck(msg) then
+if text ==('الغاء تقييد') or text ==('الغاء تقيد') and ChCheck(msg) then
 function UnTkeedReply(extra, result, success)
 HTTPS.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..result.sender_user_id_.."&can_send_messages=True&can_send_media_messages=True&can_send_other_messages=True&can_add_web_page_previews=True")
 DevAek:srem(AEK..'Aek:Tkeed:'..msg.chat_id_, result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم الغاء تقيده من المجموعه")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم الغاء تقيده من المجموعه")  
 end
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
 getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),UnTkeedReply)
 end end
-if text and text:match('^الغاء تقييد @(.*)') and ChCheck(msg) then
-local username = text:match('^الغاء تقييد @(.*)')
+if text and (text:match('^الغاء تقييد @(.*)') or text:match('^الغاء تقيد @(.*)')) and ChCheck(msg) then
+local username = text:match('^الغاء تقييد @(.*)') or text:match('^الغاء تقيد @(.*)')
 function UnTkeedUser(extra,result,success)
 if result.id_ then
 HTTPS.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..result.id_.."&can_send_messages=True&can_send_media_messages=True&can_send_other_messages=True&can_add_web_page_previews=True")
 DevAek:srem(AEK..'Aek:Tkeed:'..msg.chat_id_, result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم الغاء تقيده من المجموعه")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم الغاء تقيده من المجموعه")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
 resolve_username(username,UnTkeedUser)
 end
-if text and text:match('^الغاء تقييد (%d+)') and ChCheck(msg) then
-local user = text:match('الغاء تقييد (%d+)')
+if text and (text:match('^الغاء تقييد (%d+)') or text:match('^الغاء تقيد (%d+)')) and ChCheck(msg) then
+local user = text:match('الغاء تقييد (%d+)') or text:match('الغاء تقيد (%d+)')
 HTTPS.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..user.."&can_send_messages=True&can_send_media_messages=True&can_send_other_messages=True&can_add_web_page_previews=True")
 DevAek:srem(AEK..'Aek:Tkeed:'..msg.chat_id_, user)
-ReplyStatus(msg,user,"reply","♚∫ تم الغاء تقيده من المجموعه")  
+ReplyStatus(msg,user,"Reply","♚∫ تم الغاء تقيده من المجموعه")  
 end
 end 
 end
 --     Source AEK     --
 --         BanAll         --
 if SecondSudo(msg) then
-local text = msg.content_.text_:gsub('حضر عام','حظر عام')
-if text ==('حظر عام') then
+if text ==('حضر عام') or text ==('حظر عام') then
 function BanAllReply(extra, result, success)
 if tonumber(result.sender_user_id_) == tonumber(AEK) then  
 Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ *لاتستطيع حظر البوت عام*", 1, 'md')
@@ -5445,14 +5418,14 @@ return false
 end
 ChatKick(result.chat_id_, result.sender_user_id_)
 DevAek:sadd(AEK..'Aek:BanAll:', result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم حظره عام من المجموعات")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم حظره عام من المجموعات")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
 getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),BanAllReply)
 end end
-if text and text:match('^حظر عام @(.*)') then
-local username = text:match('^حظر عام @(.*)')
+if text and (text:match('^حضر عام @(.*)') or text:match('^حظر عام @(.*)')) then
+local username = text:match('^حضر عام @(.*)') or text:match('^حظر عام @(.*)')
 function BanAllUser(extra,result,success)
 if tonumber(result.id_) == tonumber(AEK) then  
 Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ *لاتستطيع حظر البوت عام*", 1, 'md')
@@ -5465,14 +5438,14 @@ end
 if result.id_ then
 ChatKick(msg.chat_id_, result.id_)
 DevAek:sadd(AEK..'Aek:BanAll:', result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم حظره عام من المجموعات")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم حظره عام من المجموعات")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
 resolve_username(username,BanAllUser)
 end
-if text and text:match('^حظر عام (%d+)') then
-local user = text:match('حظر عام (%d+)')
+if text and (text:match('^حضر عام (%d+)') or text:match('^حظر عام (%d+)')) then
+local user = text:match('حضر عام (%d+)') or text:match('حظر عام (%d+)')
 if tonumber(user) == tonumber(AEK) then  
 Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ *لاتستطيع حظر البوت عام*", 1, 'md')
 return false 
@@ -5483,7 +5456,7 @@ return false
 end
 ChatKick(msg.chat_id_, user)
 DevAek:sadd(AEK..'Aek:BanAll:', user)
-ReplyStatus(msg,user,"reply","♚∫ تم حظره عام من المجموعات")  
+ReplyStatus(msg,user,"Reply","♚∫ تم حظره عام من المجموعات")  
 end
 --     Source AEK     --
 --         MuteAll        --
@@ -5498,7 +5471,7 @@ Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ *لاتستطيع كتم المطور 
 return false 
 end
 DevAek:sadd(AEK..'Aek:MuteAll:', result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم كتمه عام من المجموعات")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم كتمه عام من المجموعات")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
@@ -5517,7 +5490,7 @@ return false
 end
 if result.id_ then
 DevAek:sadd(AEK..'Aek:MuteAll:', result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم كتمه عام من المجموعات")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم كتمه عام من المجموعات")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
@@ -5534,38 +5507,37 @@ Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ *لاتستطيع كتم المطور 
 return false 
 end
 DevAek:sadd(AEK..'Aek:MuteAll:', user)
-ReplyStatus(msg,user,"reply","♚∫ تم كتمه عام من المجموعات")  
+ReplyStatus(msg,user,"Reply","♚∫ تم كتمه عام من المجموعات")  
 end
 --     Source AEK     --
 --         UnAll          --
-local text = msg.content_.text_:gsub('الغاء العام','الغاء عام')
-if text ==('الغاء عام') then
+if text ==('الغاء عام') or text ==('الغاء العام') then
 function UnAllReply(extra, result, success)
 DevAek:srem(AEK..'Aek:BanAll:', result.sender_user_id_)
 DevAek:srem(AEK..'Aek:MuteAll:', result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم الغاء (الحظر • الكتم) عام من المجموعات")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم الغاء (الحظر • الكتم) عام من المجموعات")  
 end 
 if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
 else
 getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),UnAllReply)
 end end
-if text and text:match('^الغاء عام @(.*)') then
-local username = text:match('^الغاء عام @(.*)')
+if text and (text:match('^الغاء عام @(.*)') or text:match('^الغاء العام @(.*)')) then
+local username = text:match('^الغاء عام @(.*)') or text:match('^الغاء العام @(.*)')
 function UnAllUser(extra,result,success)
 if result.id_ then
 DevAek:srem(AEK..'Aek:BanAll:', result.id_)
 DevAek:srem(AEK..'Aek:MuteAll:', result.id_)
-ReplyStatus(msg,result.id_,"reply","♚∫ تم الغاء (الحظر • الكتم) عام من المجموعات")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم الغاء (الحظر • الكتم) عام من المجموعات")  
 else 
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
 end end 
 resolve_username(username,UnAllUser)
 end
-if text and text:match('^الغاء عام (%d+)') then
-local user = text:match('الغاء عام (%d+)')
+if text and (text:match('^الغاء عام (%d+)') or text:match('^الغاء العام (%d+)')) then
+local user = text:match('الغاء عام (%d+)') or text:match('الغاء العام (%d+)')
 DevAek:srem(AEK..'Aek:BanAll:', user)
 DevAek:srem(AEK..'Aek:MuteAll:', user)
-ReplyStatus(msg,user,"reply","♚∫ تم الغاء (الحظر • الكتم) عام من المجموعات")  
+ReplyStatus(msg,user,"Reply","♚∫ تم الغاء (الحظر • الكتم) عام من المجموعات")  
 end
 end
 end
@@ -5574,9 +5546,9 @@ if msg.reply_to_message_id_ ~= 0 then
 if text and text:match("^رفع مطي$") and ChCheck(msg) then
 function donky_by_reply(extra, result, success)
 if DevAek:sismember(AEK..'User:Donky:'..msg.chat_id_, result.sender_user_id_) then
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ هو مطي شرفع منه بعد😹💔") 
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ هو مطي شرفع منه بعد😹💔") 
 else
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفعه في قائمة المطايه") 
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المطايه") 
 DevAek:sadd(AEK..'User:Donky:'..msg.chat_id_, result.sender_user_id_)
 end end
 getMessage(msg.chat_id_, msg.reply_to_message_id_,donky_by_reply)
@@ -5586,10 +5558,10 @@ if msg.reply_to_message_id_ ~= 0  then
 if text and text:match("^تنزيل مطي$") and ChCheck(msg) then
 function donky_by_reply(extra, result, success)
 if not DevAek:sismember(AEK..'User:Donky:'..msg.chat_id_, result.sender_user_id_) then
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ هو ليس مطي ليتم تنزيله") 
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ هو ليس مطي ليتم تنزيله") 
 else
 DevAek:srem(AEK..'User:Donky:'..msg.chat_id_, result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تنزيله من قائمة المطايه") 
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المطايه") 
 end end
 getMessage(msg.chat_id_, msg.reply_to_message_id_,donky_by_reply)
 end end
@@ -5604,7 +5576,7 @@ if RankChecking(result.sender_user_id_, msg.chat_id_) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع تقيد ↫ '..IdRank(result.sender_user_id_, msg.chat_id_), 1, 'md') 
 else 
 https.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..result.sender_user_id_..'&until_date='..tonumber(msg.date_+num1))
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تقيده لمدة ↫ "..mutept.." د") 
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تقيده لمدة ↫ "..mutept.." د") 
 DevAek:sadd(AEK..'Aek:Tkeed:'..msg.chat_id_, result.sender_user_id_)
 end end 
 if tonumber(msg.reply_to_message_id_) == 0 then else
@@ -5619,7 +5591,7 @@ if RankChecking(result.sender_user_id_, msg.chat_id_) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع تقيد ↫ '..IdRank(result.sender_user_id_, msg.chat_id_), 1, 'md') 
 else 
 https.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..result.sender_user_id_..'&until_date='..tonumber(msg.date_+num1))
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تقيده لمدة ↫ "..mutept.." س") 
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تقيده لمدة ↫ "..mutept.." س") 
 DevAek:sadd(AEK..'Aek:Tkeed:'..msg.chat_id_, result.sender_user_id_)
 end end
 if tonumber(msg.reply_to_message_id_) == 0 then else
@@ -5634,7 +5606,7 @@ if RankChecking(result.sender_user_id_, msg.chat_id_) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لا تستطيع تقيد ↫ '..IdRank(result.sender_user_id_, msg.chat_id_), 1, 'md') 
 else 
 https.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..msg.chat_id_.."&user_id="..result.sender_user_id_..'&until_date='..tonumber(msg.date_+num1))
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم تقيده لمدة ↫ "..mutept.." ي") 
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تقيده لمدة ↫ "..mutept.." ي") 
 DevAek:sadd(AEK..'Aek:Tkeed:'..msg.chat_id_, result.sender_user_id_)
 end end
 if tonumber(msg.reply_to_message_id_) == 0 then else
@@ -6326,7 +6298,7 @@ if tonumber(result.sender_user_id_) == tonumber(AEK) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ انا البوت وليس لدي قيود', 1, 'md')  
 return false  
 end 
-ReplyStatus(msg,result.sender_user_id_,"reply","♚∫ تم رفع قيوده")  
+ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفع قيوده")  
 HTTPS.request("https://api.telegram.org/bot" .. TokenBot .. "/restrictChatMember?chat_id=" ..msg.chat_id_.. "&user_id=" ..result.sender_user_id_.. "&can_send_messages=True&can_send_media_messages=True&can_send_other_messages=True&can_add_web_page_previews=True")  
 DevAek:srem(AEK..'Aek:Tkeed:'..msg.chat_id_,result.sender_user_id_) DevAek:srem(AEK..'Aek:Ban:'..msg.chat_id_,result.sender_user_id_) DevAek:srem(AEK..'Aek:Muted:'..msg.chat_id_,result.sender_user_id_)   
 end
@@ -6343,7 +6315,7 @@ if data and data.code_ and data.code_ == 6 then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لم استطع استخراج المعلومات', 1, 'md') 
 return false  
 end
-ReplyStatus(msg,user,"reply","♚∫ تم رفع قيوده")  
+ReplyStatus(msg,user,"Reply","♚∫ تم رفع قيوده")  
 HTTPS.request("https://api.telegram.org/bot" .. TokenBot .. "/restrictChatMember?chat_id=" ..msg.chat_id_.. "&user_id=" ..user.. "&can_send_messages=True&can_send_media_messages=True&can_send_other_messages=True&can_add_web_page_previews=True")  
 DevAek:srem(AEK..'Aek:Tkeed:'..msg.chat_id_,user) DevAek:srem(AEK..'Aek:Ban:'..msg.chat_id_,user) DevAek:srem(AEK..'Aek:Muted:'..msg.chat_id_,user)   
 end,nil)  
@@ -6368,7 +6340,7 @@ if data and data.code_ and data.code_ == 6 then
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ لم استطع استخراج المعلومات', 1, 'md') 
 return false  
 end
-ReplyStatus(msg,result.id_,"reply","♚∫ تم رفع قيوده")  
+ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفع قيوده")  
 HTTPS.request("https://api.telegram.org/bot" .. TokenBot .. "/restrictChatMember?chat_id=" ..msg.chat_id_.. "&user_id=" ..result.id_.. "&can_send_messages=True&can_send_media_messages=True&can_send_other_messages=True&can_add_web_page_previews=True")  
 DevAek:srem(AEK..'Aek:Tkeed:'..msg.chat_id_,result.id_) DevAek:srem(AEK..'Aek:Ban:'..msg.chat_id_,result.id_) DevAek:srem(AEK..'Aek:Muted:'..msg.chat_id_,result.id_)   
 end,nil)   
@@ -8554,12 +8526,12 @@ if ChatType == 'sp' or ChatType == 'gp'  then
 if text == 'تفعيل الالعاب' and Manager(msg) and ChCheck(msg) or text == 'تفعيل اللعبه' and Manager(msg) and ChCheck(msg) then   
 local AEKTEAM = '♚∫ اهلا عزيزي ↫ '..AekRank(msg)..' \n♚∫ تم تفعيل الالعاب بنجاح'
 Aekmoned(msg.chat_id_, msg.sender_user_id_, msg.id_, AEKTEAM, 14, string.len(msg.sender_user_id_))
-DevAek:set(AEK..'Aek:Lock:Games'..msg.chat_id_,true)  
+DevAek:del(AEK..'Aek:Lock:Games'..msg.chat_id_) 
 end
 if text == 'تعطيل الالعاب' and Manager(msg) and ChCheck(msg) or text == 'تعطيل اللعبه' and Manager(msg) and ChCheck(msg) then  
 local AEKTEAM = '♚∫ اهلا عزيزي ↫ '..AekRank(msg)..' \n♚∫ تم تعطيل الالعاب بنجاح'
 Aekmoned(msg.chat_id_, msg.sender_user_id_, msg.id_, AEKTEAM, 14, string.len(msg.sender_user_id_))
-DevAek:del(AEK..'Aek:Lock:Games'..msg.chat_id_) 
+DevAek:set(AEK..'Aek:Lock:Games'..msg.chat_id_,true)  
 end
 if text == "تفعيل الرابط" or text == "تفعيل جلب الرابط" then 
 if Admin(msg) then
@@ -9947,10 +9919,18 @@ local text = result.content_.text_ or result.content_.caption_
 local Text = result.content_.text_
 if DevAek:get(AEK..'Aek:Lock:EditMsgs'..msg.chat_id_) and not Text and not BasicConstructor(result) then
 DeleteMessage(msg.chat_id_,{[0] = data.message_id_})
+Media = 'الميديا'
+if result.content_.ID == "MessagePhoto" then Media = 'الصوره'
+elseif result.content_.ID == "MessageSticker" then Media = 'الملصق'
+elseif result.content_.ID == "MessageVoice" then Media = 'البصمه'
+elseif result.content_.ID == "MessageAudio" then Media = 'الصوت'
+elseif result.content_.ID == "MessageVideo" then Media = 'الفيديو'
+elseif result.content_.ID == "MessageAnimation" then Media = 'المتحركه'
+end
 tdcli_function ({ID = "GetUser",user_id_ = result.sender_user_id_},function(arg,dp) 
 local Aekname = '♚∫ العضو ↫ ['..CatchName(dp.first_name_,15)..'](tg://user?id='..dp.id_..')'
 local Aekid = '♚∫ ايديه ↫ `'..dp.id_..'`'
-local Aektext = '♚∫ قام بالتعديل على الميديا'
+local Aektext = '♚∫ قام بالتعديل على '..Media
 local Aektxt = '━───━ ♚ ━───━\n♚∫ تعالو يامشرفين اكو مخرب'
 tdcli_function ({ID = "GetChannelMembers",channel_id_ = msg.chat_id_:gsub("-100",""),filter_ = {ID = "ChannelMembersAdministrators"},offset_ = 0,limit_ = 100},function(arg,Aekan) 
 local admins = Aekan.members_  
@@ -9958,7 +9938,7 @@ text = '\n━───━ ♚ ━───━\n'
 for i=0 , #admins do 
 tdcli_function ({ID = "GetUser",user_id_ = admins[i].user_id_},function(arg,data) 
 if data.first_name_ ~= false then
-text = text.."~ [@"..data.username_.."]\n"
+text = text.."~ [@"..data.username_.."]\n"
 end
 if #admins == i then 
 SendText(msg.chat_id_, Aekname..'\n'..Aekid..'\n'..Aektext..text..Aektxt,0,'md') 
