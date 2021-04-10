@@ -308,16 +308,6 @@ return false
 end  
 end
 --     Source AEK     --
---------- Cleaner ----------
-function Cleaner(msg) 
-local Status = DevAek:sismember(AEK..'Aek:Cleaner:'..msg.chat_id_,msg.sender_user_id_) 
-if Status or SudoBot(msg) or AekConstructor(msg) or BasicConstructor(msg) or Constructor(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
-return true  
-else  
-return false  
-end  
-end
---     Source AEK     --
 ---------  Banned  ---------
 local function Ban(user_id, chat_id)
 if DevAek:sismember(AEK..'Aek:Ban:'..chat_id, user_id) then
@@ -4607,60 +4597,6 @@ if text and text:match('^تنزيل مدير (%d+)') and ChCheck(msg) then
 local user = text:match('تنزيل مدير (%d+)')
 DevAek:srem(AEK..'Aek:Managers:'..msg.chat_id_,user)
 ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المدراء")  
-end 
---     Source AEK     --
---       Set Cleaner      --
-if text ==('رفع منظف') and ChCheck(msg) then
-function prom_reply(extra, result, success)
-DevAek:sadd(AEK..'Aek:Cleaner:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم رفعه في قائمة المنظفين")  
-end 
-if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
-else
-getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
-end end
-if text and text:match('^رفع منظف @(.*)') and ChCheck(msg) then
-local username = text:match('^رفع منظف @(.*)')
-function promreply(extra,result,success)
-if result.id_ then
-DevAek:sadd(AEK..'Aek:Cleaner:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"Reply","♚∫ تم رفعه في قائمة المنظفين")  
-else 
-Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
-end end 
-resolve_username(username,promreply)
-end
-if text and text:match('^رفع منظف (%d+)') and ChCheck(msg) then
-local user = text:match('رفع منظف (%d+)')
-DevAek:sadd(AEK..'Aek:Cleaner:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"Reply","♚∫ تم رفعه في قائمة المنظفين")  
-end
---     Source AEK     --
---       Rem Cleaner      --
-if text ==('تنزيل منظف') and ChCheck(msg) then
-function prom_reply(extra, result, success)
-DevAek:srem(AEK..'Aek:Cleaner:'..msg.chat_id_,result.sender_user_id_)
-ReplyStatus(msg,result.sender_user_id_,"Reply","♚∫ تم تنزيله من قائمة المنظفين")  
-end 
-if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
-else
-getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
-end end
-if text and text:match('^تنزيل منظف @(.*)') and ChCheck(msg) then
-local username = text:match('^تنزيل منظف @(.*)')
-function promreply(extra,result,success)
-if result.id_ then
-DevAek:srem(AEK..'Aek:Cleaner:'..msg.chat_id_,result.id_)
-ReplyStatus(msg,result.id_,"Reply","♚∫ تم تنزيله من قائمة المنظفين")  
-else 
-Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ *المعرف غير صحيح*', 1, 'md')
-end end 
-resolve_username(username,promreply)
-end
-if text and text:match('^تنزيل منظف (%d+)') and ChCheck(msg) then
-local user = text:match('تنزيل منظف (%d+)')
-DevAek:srem(AEK..'Aek:Cleaner:'..msg.chat_id_,user)
-ReplyStatus(msg,user,"Reply","♚∫ تم تنزيله من قائمة المنظفين")  
 end end
 --     Source AEK     --
 --       Set admin        --
@@ -5596,7 +5532,6 @@ end
 tdcli_function ({ID = "GetMessage",chat_id_=msg.chat_id_,message_id_=tonumber(msg.reply_to_message_id_)},Reply, nil)
 return false
 end
-if DevAek:get(AEK..'Aek:Lock:Clean'..msg.chat_id_) then if msg.content_.video_ or msg.content_.document_ or msg.content_.sticker_ or msg.content_.photo_ or msg.content_.animation_ then if msg.reply_to_message_id_ ~= 0 then DevAek:sadd(AEK.."Aek:cleaner"..msg.chat_id_, msg.id_) else DevAek:sadd(AEK.."Aek:cleaner"..msg.chat_id_, msg.id_) end end end
 if Manager(msg) and msg.reply_to_message_id_ ~= 0 then
 if text and text:match("^تثبيت$") and ChCheck(msg) then 
 if DevAek:sismember(AEK.."Aek:Lock:Pinpin",msg.chat_id_) and not BasicConstructor(msg) then
@@ -5670,21 +5605,6 @@ text = text..""..k.."~ : `"..v.."`\n"
 end end
 if #List == 0 then 
 text = "♚∫ *لا يوجد مدراء*"
-end
-Dev_Aek(msg.chat_id_, msg.id_, 1, text, 1, "md")
-end 
-if text == "المنظفين" and ChCheck(msg) then 
-local List = DevAek:smembers(AEK..'Aek:Cleaner:'..msg.chat_id_)
-text = "♚∫ قائمة المنظفين ↫ ⤈ \n━───━ ♚ ━───━\n"
-for k,v in pairs(List) do
-local username = DevAek:get(AEK..'Save:UserName'..v)
-if username then
-text = text..""..k.."~ : [@"..username.."]\n"
-else
-text = text..""..k.."~ : `"..v.."`\n"
-end end
-if #List == 0 then 
-text = "♚∫ *لا يوجد منظفين*"
 end
 Dev_Aek(msg.chat_id_, msg.id_, 1, text, 1, "md")
 end end 
@@ -6948,43 +6868,6 @@ return false
 end 
 end
 --     Source AEK     --
-if text == "تفعيل امسح" and Constructor(msg) and ChCheck(msg) then
-local AEKTEAM = '♚∫ اهلا عزيزي ↫ '..AekRank(msg)..' \n♚∫ تم تفعيل امسح بنجاح'
-Aekmoned(msg.chat_id_, msg.sender_user_id_, msg.id_, AEKTEAM, 14, string.len(msg.sender_user_id_))
-DevAek:set(AEK..'Aek:Lock:Clean'..msg.chat_id_,true)  
-end
-if text == "تعطيل امسح" and Constructor(msg) and ChCheck(msg) then
-local AEKTEAM = '♚∫ اهلا عزيزي ↫ '..AekRank(msg)..' \n♚∫ تم تعطيل امسح بنجاح'
-Aekmoned(msg.chat_id_, msg.sender_user_id_, msg.id_, AEKTEAM, 14, string.len(msg.sender_user_id_))
-DevAek:del(AEK..'Aek:Lock:Clean'..msg.chat_id_) 
-end
-if Cleaner(msg) then
-if DevAek:get(AEK..'Aek:Lock:Clean'..msg.chat_id_) then 
-if text == "الميديا" and ChCheck(msg) or text == "عدد الميديا" and ChCheck(msg) then 
-local M = DevAek:scard(AEK.."Aek:cleaner"..msg.chat_id_)
-if M ~= 0 then
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ عدد الميديا ↫ "..M, 1, 'md') 
-else
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ لاتوجد ميديا هنا", 1, 'md') 
-end end
-if text == "امسح" and ChCheck(msg) or text == "تنظيف ميديا" and ChCheck(msg) or text == "تنظيف الميديا" and ChCheck(msg) then
-local List = DevAek:smembers(AEK.."Aek:cleaner"..msg.chat_id_)
-local Del = 0
-for k,v in pairs(List) do
-Del = (Del + 1)
-local Message = v
-DeleteMessage(msg.chat_id_,{[0]=Message})
-Message = Message - 1048576 
-end
-if Del ~= 0 then
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ تم حذف "..Del.." من الميديا", 1, 'md') 
-DevAek:del(AEK.."Aek:cleaner"..msg.chat_id_)
-else
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ لاتوجد ميديا هنا", 1, 'md') 
-end end 
-end
-end
---     Source AEK     --
 if Admin(msg) then
 if text == "تنظيف تعديل" and ChCheck(msg) or text == "تنظيف التعديل" and ChCheck(msg) then   
 Aek_Del = {[0]= msg.id_}
@@ -7565,11 +7448,6 @@ local Text = text:match("^تغير رد المميز (.*)$")
 DevAek:set(AEK.."Aek:VipMem:Rd"..msg.chat_id_,Text)
 Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ تم تغير رد المميز الى ↫ "..Text, 1, 'md')
 end
-if text and text:match("^تغير رد المنظف (.*)$") and ChCheck(msg) then
-local Text = text:match("^تغير رد المنظف (.*)$") 
-DevAek:set(AEK.."Aek:Cleaner:Rd"..msg.chat_id_,Text)
-Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ تم تغير رد المنظف الى ↫ "..Text, 1, 'md')
-end
 if text and text:match("^تغير رد العضو (.*)$") and ChCheck(msg) then
 local Text = text:match("^تغير رد العضو (.*)$") 
 DevAek:set(AEK.."Aek:mem:Rd"..msg.chat_id_,Text)
@@ -7578,7 +7456,6 @@ end
 if text == "حذف ردود الرتب" and ChCheck(msg) or text == "مسح ردود الرتب" and ChCheck(msg) then
 Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ تم حذف جميع ردود الرتب", 1, 'md')
 DevAek:del(AEK.."Aek:mem:Rd"..msg.chat_id_)
-DevAek:del(AEK.."Aek:Cleaner:Rd"..msg.chat_id_)
 DevAek:del(AEK.."Aek:VipMem:Rd"..msg.chat_id_)
 DevAek:del(AEK.."Aek:Admins:Rd"..msg.chat_id_)
 DevAek:del(AEK.."Aek:Managers:Rd"..msg.chat_id_)
@@ -7691,10 +7568,6 @@ if Constructor(msg) then
 if txts[2] == 'المدراء' or txtss[2] == 'المدراء' then
 ReplyStatus(msg,msg.sender_user_id_,"ReplyBy","♚∫ تم حذف المدراء")  
 DevAek:del(AEK..'Aek:Managers:'..msg.chat_id_)
-end 
-if txts[2] == 'المنظفين' or txtss[2] == 'المنظفين' then
-ReplyStatus(msg,msg.sender_user_id_,"ReplyBy","♚∫ تم حذف المنظفين")  
-DevAek:del(AEK..'Aek:Cleaner:'..msg.chat_id_)
 end end
 if Manager(msg) then
 if txts[2] == 'الادمنيه' or txtss[2] == 'الادمنيه' then
@@ -9331,7 +9204,7 @@ local text =  [[
 ♚∫ تغير رد + اسم الرتبه + النص ↫ ⤈
 ♚∫ المطور • منشئ الاساسي
 ♚∫ المنشئ • المدير • الادمن
-♚∫ المميز • المنظف • العضو
+♚∫ المميز • العضو
 ♚∫ حذف ردود الرتب
 ━───━ ♚ ━───━
 ♚∫ تغيير الايدي ↫ لتغيير الكليشه
@@ -9371,18 +9244,15 @@ local text =  [[
 ♚∫ اوامر المنشئين ↫ ⤈
 ━───━ ♚ ━───━
 ♚∫ تنزيل الكل
-♚∫ الميديا • امسح
 ♚∫ اضف • حذف ↫ امر
 ♚∫ حذف الاوامر المضافه
 ♚∫ الاوامر المضافه
 ♚∫ اضف نقاط ↫ بالرد • بالايدي
 ♚∫ اضف رسائل ↫ بالرد • بالايدي
-♚∫ رفع منظف • تنزيل منظف
-♚∫ المنظفين • حذف المنظفين
 ♚∫ رفع مدير • تنزيل مدير
 ♚∫ المدراء • حذف المدراء
 ♚∫ تفعيل • تعطيل + الامر ↫ ⤈
-♚∫ نزلني • امسح
+♚∫ نزلني
 ♚∫ الحظر • الكتم
 ♚∫ كتم الاسم
 ━───━ ♚ ━───━
