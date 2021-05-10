@@ -4,19 +4,29 @@
 --                - AEK -                 --
 --        -- https://t.me/SoalfLove --         --
 ------------------------------------------------ 
+LibsNumber = 0
+for v in io.popen('ls libs'):lines() do
+if v:match(".lua$") then
+LibsNumber = LibsNumber + 1
+end
+end
+if LibsNumber ~= 0 then
+URL = dofile("./libs/url.lua")
+json = dofile("./libs/JSON.lua")
+JSON = dofile("./libs/dkjson.lua")
+serpent = dofile("./libs/serpent.lua")
+DevAek = dofile("./libs/redis.lua").connect("127.0.0.1", 6379)
+else 
 redis = require('redis') 
 URL = require('socket.url') 
-HTTPS = require ("ssl.https") 
-https = require ("ssl.https") 
-http  = require ("socket.http") 
 serpent = require("serpent") 
 json = dofile('./JSON.lua') 
 JSON = dofile('./dkjson.lua') 
-lgi = require('lgi') 
-notify = lgi.require('Notify') 
-utf8 = require ('lua-utf8') 
-notify.init ("Telegram updates") 
-DevAek = redis.connect('127.0.0.1', 6379) 
+DevAek = redis.connect('127.0.0.1', 6379)
+end
+HTTPS = require ("ssl.https") 
+https = require ("ssl.https") 
+http  = require ("socket.http") 
 User = io.popen("whoami"):read('*a'):gsub('[\n\r]+', '')
 ServerAEK = io.popen("echo $SSH_CLIENT | awk '{ print $1}'"):read('*a') 
 Ip = io.popen("dig +short myip.opendns.com @resolver1.opendns.com"):read('*a'):gsub('[\n\r]+', '')
@@ -51,7 +61,8 @@ else
 print('\27[1;31m━───━ ♚ ━───━\nلم يتم حفظ توكن البوت ارسله مره اخرى\n━───━ ♚ ━───━') 
 end  
 os.execute('lua AEK.lua') 
-end 
+end
+DevAek:set(DevAek:get(ServerAEK.."TokenAEK"):match("(%d+)")..'Aek:Update',true)
 local Create = function(data, file, uglify)  
 file = io.open(file, "w+")   
 local serialized   
@@ -505,11 +516,6 @@ function ChatLeave(chat_id, user_id)
 changeChatMemberStatus(chat_id, user_id, "Left")
 end
 --     Source AEK     --
-function do_notify(user, msg)
-local n = notify.Notification.new(user, msg)
-n:show ()
-end
---     Source AEK     --
 function ChatKick(chat_id, user_id)
 changeChatMemberStatus(chat_id, user_id, "Kicked")
 end
@@ -596,10 +602,6 @@ disable_notification_ = disable_notification
 }, function(arg ,data)
 vardump(data)
 end ,nil) 
-end
---     Source AEK     --
-function CatchName(Name,Num) 
-ChekName = utf8.sub(Name,0,Num) Name = ChekName return Name..'' 
 end
 --     Source AEK     --
 local AekRank = function(msg) if SudoId(msg.sender_user_id_) then AEKTEAM  = "المطور" elseif SecondSudo(msg) then AEKTEAM = "المطور" elseif SudoBot(msg) then AEKTEAM = "المطور" elseif ManagerAll(msg) then AEKTEAM = "المدير" elseif AdminAll(msg) then AEKTEAM = "الادمن" elseif AekConstructor(msg) then AEKTEAM = "المنشئ" elseif BasicConstructor(msg) then AEKTEAM = "المنشئ" elseif Constructor(msg) then AEKTEAM = "المنشئ" elseif Manager(msg) then AEKTEAM = "المدير" elseif Admin(msg) then AEKTEAM = "الادمن" else AEKTEAM = "العضو" end return AEKTEAM end
@@ -907,10 +909,10 @@ end
 if DataText == '/setyes' then
 local NewDev = DevAek:get(AEK.."Aek:NewDev"..data.sender_user_id_)
 tdcli_function ({ID = "GetUser",user_id_ = NewDev},function(arg,dp) 
-EditMsg(Chat_Id2, Msg_Id2, "♚∫ المطور الجديد ↫ ["..CatchName(dp.first_name_,15).."](tg://user?id="..dp.id_..")\n♚∫ تم تغير المطور الاساسي بنجاح") 
+EditMsg(Chat_Id2, Msg_Id2, "♚∫ المطور الجديد ↫ ["..dp.first_name_.."](tg://user?id="..dp.id_..")\n♚∫ تم تغير المطور الاساسي بنجاح")
 end,nil)
 tdcli_function ({ID = "GetUser",user_id_ = data.sender_user_id_},function(arg,dp) 
-SendText(NewDev,"♚∫ بواسطة ↫ ["..CatchName(dp.first_name_,15).."](tg://user?id="..dp.id_..")\n♚∫ لقد اصبحت انت مطور هذا البوت",0,'md')
+SendText(NewDev,"♚∫ بواسطة ↫ ["..dp.first_name_.."](tg://user?id="..dp.id_..")\n♚∫ لقد اصبحت انت مطور هذا البوت",0,'md')
 end,nil)
 local Create = function(data, file, uglify)  
 file = io.open(file, "w+")   
@@ -979,8 +981,6 @@ end
 end
 if (data.ID == "UpdateNewMessage") then
 local msg = data.message_
-local d = data.disable_notification_
-local chat = chats[msg.chat_id_]
 text = msg.content_.text_ 
 if text and DevAek:get(AEK.."Del:Cmd:Group"..msg.chat_id_..":"..msg.sender_user_id_) == "true" then
 local NewCmmd = DevAek:get(AEK.."Set:Cmd:Group:New1"..msg.chat_id_..":"..text)
@@ -1629,7 +1629,7 @@ end;end,nil)
 --     Source AEK     --
 local ReFalse = tostring(msg.chat_id_)
 if not DevAek:sismember(AEK.."Aek:Groups",msg.chat_id_) and not ReFalse:match("^(%d+)") and not SudoBot(msg) then
-print("Return False [ Not Enable ]")
+print("Return False : The Bot Is Not Enabled In The Group")
 return false
 end
 --     Source AEK     --
@@ -1686,14 +1686,6 @@ DeleteMessage(msg.chat_id_,{[0] = msg.id_})
 return false   
 end
 end
-end
-end
---     Source AEK     --
-if ((not d) and chat) then
-if msg.content_.ID == "MessageText" then
-do_notify (chat.title_, msg.content_.text_)
-else
-do_notify (chat.title_, msg.content_.ID)
 end
 end
 --     Source AEK     --
@@ -1920,7 +1912,7 @@ end
 --       Spam Send        --
 function NotSpam(msg,Type)
 tdcli_function ({ID = "GetUser",user_id_ = msg.sender_user_id_},function(arg,dp) 
-local GetName = '['..CatchName(dp.first_name_,15)..'](tg://user?id='..dp.id_..')'
+local GetName = '['..dp.first_name_..'](tg://user?id='..dp.id_..')'
 if Type == "kick" then 
 ChatKick(msg.chat_id_,msg.sender_user_id_) 
 my_ide = msg.sender_user_id_
@@ -5450,7 +5442,7 @@ if dp.first_name_ ~= false then
 DevAek:del(AEK.."Aek:EditDev"..msg.sender_user_id_)
 DevAek:set(AEK.."Aek:NewDev"..msg.sender_user_id_,dp.id_)
 if dp.username_ ~= false then DevUser = '\n♚∫ المعرف ↫ [@'..dp.username_..']' else DevUser = '' end
-local Text = '♚∫ الايدي ↫ '..dp.id_..DevUser..'\n♚∫ الاسم ↫ ['..CatchName(dp.first_name_,15)..'](tg://user?id='..dp.id_..')\n♚∫ تم حفظ المعلومات بنجاح\n♚∫ استخدم الازرار للتاكيد ↫ ⤈'
+local Text = '♚∫ الايدي ↫ '..dp.id_..DevUser..'\n♚∫ الاسم ↫ ['..dp.first_name_..'](tg://user?id='..dp.id_..')\n♚∫ تم حفظ المعلومات بنجاح\n♚∫ استخدم الازرار للتاكيد ↫ ⤈'
 keyboard = {} 
 keyboard.inline_keyboard = {{{text="نعم",callback_data="/setyes"},{text="لا",callback_data="/setno"}}} 
 Msg_id = msg.id_/2097152/0.5
@@ -6053,7 +6045,7 @@ if data.first_name_ == false then
 Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ الحساب محذوف', 1, 'md')
 return false  end
 if data.username_ == false then
-Text = '♚∫ اسمه ↫ ['..CatchName(data.first_name_,20)..'](tg://user?id='..result.sender_user_id_..')\n♚∫ ايديه ↫ ❨ `'..result.sender_user_id_..'` ❩\n♚∫ رتبته ↫ '..IdRank(result.sender_user_id_, msg.chat_id_)..''..sudobot..'\n♚∫ رسائله ↫ ❨ '..user_msgs..' ❩\n♚∫ تفاعله ↫ '..formsgs(user_msgs)..''..CustomTitle..'\n♚∫ نقاطه ↫ ❨ '..user_nkt..' ❩'..Tked
+Text = '♚∫ اسمه ↫ ['..data.first_name_..'](tg://user?id='..result.sender_user_id_..')\n♚∫ ايديه ↫ ❨ `'..result.sender_user_id_..'` ❩\n♚∫ رتبته ↫ '..IdRank(result.sender_user_id_, msg.chat_id_)..''..sudobot..'\n♚∫ رسائله ↫ ❨ '..user_msgs..' ❩\n♚∫ تفاعله ↫ '..formsgs(user_msgs)..''..CustomTitle..'\n♚∫ نقاطه ↫ ❨ '..user_nkt..' ❩'..Tked
 SendText(msg.chat_id_,Text,msg.id_/2097152/0.5,'md')
 else
 Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ معرفه ↫ [@'..data.username_..']\n♚∫ ايديه ↫ ❨ `'..result.sender_user_id_..'` ❩\n♚∫ رتبته ↫ '..IdRank(result.sender_user_id_, msg.chat_id_)..''..sudobot..'\n♚∫ رسائله ↫ ❨ '..user_msgs..' ❩\n♚∫ تفاعله ↫ '..formsgs(user_msgs)..''..CustomTitle..'\n♚∫ نقاطه ↫ ❨ '..user_nkt..' ❩'..Tked, 1, 'md')
@@ -6161,7 +6153,7 @@ if data.first_name_ == false then
 Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ الحساب محذوف', 1, 'md')
 return false  end
 if data.username_ == false then
-Text = '♚∫ اسمه ↫ ['..CatchName(data.first_name_,20)..'](tg://user?id='..iduser..')\n♚∫ ايديه ↫ ❨ `'..iduser..'` ❩\n♚∫ رتبته ↫ '..IdRank(data.id_, msg.chat_id_)..''..sudobot..'\n♚∫ رسائله ↫ ❨ '..user_msgs..' ❩\n♚∫ تفاعله ↫ '..formsgs(user_msgs)..''..CustomTitle..'\n♚∫ نقاطه ↫ ❨ '..user_nkt..' ❩'..Tked
+Text = '♚∫ اسمه ↫ ['..data.first_name_..'](tg://user?id='..result.sender_user_id_..')\n♚∫ ايديه ↫ ❨ `'..result.sender_user_id_..'` ❩\n♚∫ رتبته ↫ '..IdRank(result.sender_user_id_, msg.chat_id_)..''..sudobot..'\n♚∫ رسائله ↫ ❨ '..user_msgs..' ❩\n♚∫ تفاعله ↫ '..formsgs(user_msgs)..''..CustomTitle..'\n♚∫ نقاطه ↫ ❨ '..user_nkt..' ❩'..Tked
 SendText(msg.chat_id_,Text,msg.id_/2097152/0.5,'md')
 else
 Dev_Aek(msg.chat_id_, msg.id_, 1,'♚∫ معرفه ↫ [@'..data.username_..']\n♚∫ ايديه ↫ ❨ `'..iduser..'` ❩\n♚∫ رتبته ↫ '..IdRank(data.id_, msg.chat_id_)..''..sudobot..'\n♚∫ رسائله ↫ ❨ '..user_msgs..' ❩\n♚∫ تفاعله ↫ '..formsgs(user_msgs)..''..CustomTitle..'\n♚∫ نقاطه ↫ ❨ '..user_nkt..' ❩'..Tked, 1, 'md')
@@ -6804,22 +6796,11 @@ if text and text == "المشتركين" and ChCheck(msg) or text and text == "�
 local users = DevAek:scard(AEK.."Aek:Users")
 Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ عدد المشتركين ↫ ❨ '..users..' ❩', 1, 'md')
 end
-end
---     Source AEK     --
 if text and text == 'المجموعات' and ChCheck(msg) or text and text == '↫ المجموعات ♚' then
-if not SudoBot(msg) then
-Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ للمطورين فقط ', 1, 'md')
-else
-local List = DevAek:smembers(AEK.."Aek:Groups")
-local t = '♚∫ مجموعات البوت ↫ ⤈ \n'
-for k,v in pairs(List) do
-t = t..k.."~ : `"..v.."`\n" 
+local gps = DevAek:scard(AEK.."Aek:Groups")
+Dev_Aek(msg.chat_id_, msg.id_, 1, '♚∫ عدد المجموعات ↫ ❨ '..gps..' ❩', 1, 'md')
 end
-if #List == 0 then
-t = '♚∫ لا يوجد مجموعات مفعله'
 end
-Dev_Aek(msg.chat_id_, msg.id_, 1,t, 1, 'md')
-end end
 --     Source AEK     --
 if text and text:match('^تنظيف (%d+)$') and ChCheck(msg) then  
 if not DevAek:get(AEK..'Delete:Time'..msg.chat_id_..':'..msg.sender_user_id_) then  
@@ -9492,7 +9473,13 @@ dofile('AEK.lua')
 io.popen("rm -rf ../.telegram-cli/*")
 print("\27[31;47m\n        ( تم تحديث ملفات البوت )        \n\27[0;34;49m\n") 
 Dev_Aek(msg.chat_id_, msg.id_, 1, "♚∫ تم تحديث ملفات البوت", 1, "md")
-end 
+end
+if msg and not DevAek:get(AEK..'Aek:Update') then
+DevAek:set(AEK..'Aek:Update',true)
+os.execute('unlink JSON.lua && unlink dkjson.lua')
+os.execute('git clone https://github.com/AEKOTEAM/libs') 
+dofile('AEK.lua') 
+end
 --     Source AEK     --
 if text == 'الملفات' then
 Files = '\n♚∫ الملفات المفعله في البوت ↫ ⤈ \n━───━ ♚ ━───━\n'
@@ -9709,7 +9696,7 @@ elseif result.content_.ID == "MessageVideo" then Media = 'الفيديو'
 elseif result.content_.ID == "MessageAnimation" then Media = 'المتحركه'
 end
 tdcli_function ({ID = "GetUser",user_id_ = result.sender_user_id_},function(arg,dp) 
-local Aekname = '♚∫ العضو ↫ ['..CatchName(dp.first_name_,15)..'](tg://user?id='..dp.id_..')'
+local Aekname = '♚∫ العضو ↫ ['..dp.first_name_..'](tg://user?id='..dp.id_..')'
 local Aekid = '♚∫ ايديه ↫ `'..dp.id_..'`'
 local Aektext = '♚∫ قام بالتعديل على '..Media
 local Aektxt = '━───━ ♚ ━───━\n♚∫ تعالو يامشرفين اكو مخرب'
